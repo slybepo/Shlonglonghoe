@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 25% 25%, rgba(138, 99, 242, 0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(0, 184, 148, 0.15) 0%, transparent 50%);
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Search Bar */
+        .search-container {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background-color: var(--search-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(138, 99, 242, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+
+        /* User Dropdown */
+        .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .dropdown-arrow {
+            color: var(--text-dim);
+            transition: transform 0.2s;
+        }
+
+        .user-menu:hover .dropdown-arrow {
+            color: var(--text);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-menu:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 0.5rem 0;
+        }
+
+        /* Auth Container */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 72px);
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .auth-subtitle {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(138, 99, 242, 0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Avatar Upload */
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--border);
+        }
+
+        .avatar-label {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .avatar-label:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Verification Code */
+        .verification-code {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .verification-code input {
+            width: 14%;
+            height: 50px;
+            text-align: center;
+            font-size: 1.25rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .toast.error {
+            background-color: var(--error);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .search-container {
+                order: 3;
+                margin: 1rem 0 0;
+                max-width: 100%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .auth-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">✦</span>
+            <span>DreamWeave.lol</span>
+        </a>
+        
+        <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-bar" placeholder="Search...">
+        </div>
+        
+        <div class="nav-links">
+            <a href="#" class="nav-link">Explore</a>
+            <a href="#" class="nav-link">Features</a>
+            <a href="#" class="nav-link">Community</a>
+            <a href="#" class="nav-link active">Account</a>
+        </div>
+        
+        <div class="user-menu" id="user-menu">
+            <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Guest" class="user-avatar" id="user-avatar">
+            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            
+            <div class="dropdown-menu" id="dropdown-menu">
+                <a href="#" class="dropdown-item">My Profile</a>
+                <a href="#" class="dropdown-item">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Explore</a>
+                <a href="#" class="dropdown-item">Features</a>
+                <a href="#" class="dropdown-item">Community</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Privacy Policy</a>
+                <a href="#" class="dropdown-item" id="logout-btn">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <!-- Register Card -->
+        <div id="register-card" class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Join DreamWeave</h1>
+                <p class="auth-subtitle">Create your account to get started</p>
+            </div>
+            
+            <div class="avatar-upload">
+                <img id="avatar-preview" src="https://api.dicebear.com/7.x/identicon/svg?seed=Anon" class="avatar-preview">
+                <label for="avatar-upload" class="avatar-label">Choose Avatar</label>
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            </div>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="display-name" class="form-label">Display Name</label>
+                    <input type="text" id="display-name" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </form>
+            
+            <div class="auth-footer">
+                Already have an account? <a href="/login" class="auth-link">Sign In</a>
+            </div>
+        </div>
+
+        <!-- Verification Card -->
+        <div id="verification-card" class="auth-card" style="display: none;">
+            <div class="auth-header">
+                <h1 class="auth-title">Verify Email</h1>
+                <p class="auth-subtitle">We sent a 6-digit code to your email</p>
+            </div>
+            
+            <form id="verification-form">
+                <div class="verification-code">
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Verify Account</button>
+            </form>
+            
+            <div class="auth-footer">
+                Didn't receive a code? <a href="#" id="resend-code" class="auth-link">Resend Code</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword,
+            sendEmailVerification
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+        import { 
+            getStorage, 
+            ref, 
+            uploadBytes, 
+            getDownloadURL 
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // DOM Elements
+        const registerCard = document.getElementById('register-card');
+        const verificationCard = document.getElementById('verification-card');
+        const registerForm = document.getElementById('register-form');
+        const verificationForm = document.getElementById('verification-form');
+        const resendCodeLink = document.getElementById('resend-code');
+        const avatarUpload = document.getElementById('avatar-upload');
+        const avatarPreview = document.getElementById('avatar-preview');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // State variables
+        let verificationCode = '';
+        let profileImageFile = null;
+        let emailForVerification = '';
+
+        // Event Listeners
+        resendCodeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            verificationCode = generateVerificationCode();
+            sendVerificationEmail(emailForVerification, verificationCode);
+            showToast('New verification code sent', 'success');
+        });
+
+        avatarUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                profileImageFile = file;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    avatarPreview.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form Submissions
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const displayName = document.getElementById('display-name').value;
+            
+            if (!email || !password || !displayName) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            try {
+                // Generate verification code
+                verificationCode = generateVerificationCode();
+                emailForVerification = email;
+                
+                // In production, you would call your backend to send the email
+                // For demo, we'll use Firebase's sendEmailVerification after user creation
+                showToast(`Verification code: ${verificationCode}`, 'success');
+                
+                // Switch to verification page
+                registerCard.style.display = 'none';
+                verificationCard.style.display = 'block';
+                
+                // Store form data temporarily
+                sessionStorage.setItem('registerData', JSON.stringify({
+                    email,
+                    password,
+                    displayName
+                }));
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        });
+
+        verificationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get verification code from inputs
+            const inputs = verificationForm.querySelectorAll('input');
+            let enteredCode = '';
+            inputs.forEach(input => {
+                enteredCode += input.value;
+            });
+            
+            if (enteredCode !== verificationCode) {
+                showToast('Invalid verification code', 'error');
+                return;
+            }
+            
+            // Get stored registration data
+            const registerData = JSON.parse(sessionStorage.getItem('registerData'));
+            if (!registerData) {
+                showToast('Session expired. Please register again.', 'error');
+                window.location.href = '/register';
+                return;
+            }
+            
+            const { email, password, displayName } = registerData;
+            
+            try {
+                // Create user
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Send verification email (Firebase's built-in)
+                await sendEmailVerification(user);
+                showToast('Verification email sent! Please check your inbox.', 'success');
+                
+                // Upload profile image if exists
+                let avatarUrl = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(email)}`;
+                if (profileImageFile) {
+                    const storageRef = ref(storage, `avatars/${user.uid}`);
+                    const snapshot = await uploadBytes(storageRef, profileImageFile);
+                    avatarUrl = await getDownloadURL(snapshot.ref);
+                }
+                
+                // Create user profile in Firestore
+                await setDoc(doc(db, 'users', user.uid), {
+                    uid: user.uid,
+                    email: email,
+                    displayName: displayName,
+                    avatarUrl: avatarUrl,
+                    followers: 0,
+                    following: 0,
+                    likes: 0,
+                    role: 'member',
+                    createdAt: new Date(),
+                    emailVerified: false
+                });
+                
+                sessionStorage.removeItem('registerData');
+                
+                // Redirect to login page
+                window.location.href = '/login';
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        });
+
+        // Verification code input handling
+        const codeInputs = verificationForm.querySelectorAll('input');
+        codeInputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key === 'Backspace' && index > 0 && !input.value) {
+                    codeInputs[index - 1].focus();
+                } else if (input.value && index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+            });
+        });
+
+        // Helper Functions
+        function generateVerificationCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // For production: This would call your backend API to send emails via Mailjet/Zoho
+        async function sendVerificationEmail(email, code) {
+            // In production, you would:
+            // 1. Create a backend API endpoint that connects to Mailjet/Zoho
+            // 2. Call it from here with the email and code
+            // 3. Handle the response
+            
+            // Example fetch:
+            /*
+            try {
+                const response = await fetch('https://your-api.com/send-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        code: code,
+                        domain: 'dreamweave.lol'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to send verification email');
+                }
+                
+                showToast('Verification email sent!', 'success');
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+            */
+            
+            // For demo, we'll just show the code
+            showToast(`Verification code for ${email}: ${code}`, 'success');
+        }
+
+        // Hide user menu if not logged in
+        document.getElementById('user-menu').style.display = 'none';
+    </script>
+</body>
+</html>
