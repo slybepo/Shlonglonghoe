@@ -468,7 +468,7 @@
                     <input type="email" id="email" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="discord-username" class="form-label">Discord Username (@username)</label>
+                    <label for="discord-username" class="form-label">Discord User id</label>
                     <input type="text" id="discord-username" class="form-control" placeholder="@username" required>
                 </div>
                 <div class="form-group">
@@ -512,249 +512,244 @@
         </div>
     </div>
 
-    <script type="module">
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
-            authDomain: "nexaverse-eeb07.firebaseapp.com",
-            projectId: "nexaverse-eeb07",
-            storageBucket: "nexaverse-eeb07.appspot.com",
-            messagingSenderId: "686342300627",
-            appId: "1:686342300627:web:90522d8f1129fb00b08526",
-        };
+                    <script type="module">
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+        authDomain: "nexaverse-eeb07.firebaseapp.com",
+        projectId: "nexaverse-eeb07",
+        storageBucket: "nexaverse-eeb07.appspot.com",
+        messagingSenderId: "686342300627",
+        appId: "1:686342300627:web:90522d8f1129fb00b08526",
+    };
 
-        // Initialize Firebase
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword
-        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc
-        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
-        import { 
-            getStorage, 
-            ref, 
-            uploadBytes, 
-            getDownloadURL 
-        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js';
+    // Initialize Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+    import { 
+        getAuth, 
+        createUserWithEmailAndPassword
+    } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+    import { 
+        getFirestore, 
+        doc, 
+        setDoc
+    } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+    import { 
+        getStorage, 
+        ref, 
+        uploadBytes, 
+        getDownloadURL 
+    } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js';
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-        // Discord Webhook URL - REPLACE WITH YOUR ACTUAL WEBHOOK URL
-        const DISCORD_WEBHOOK_URL = 'https://l.webhook.party/hook/2cYwXAgmOXxRfI2K2%2BvZ3IG%2BsUKFCoPpslj10LElJscZ9uFTPXkJyYTExjsNiSaUEe%2FpE%2F%2BxZzzM7KPC%2FQlmPCY3GjS1qNA7RurR9%2B92Q6n8gLVzLVgwA3d6iCGHMJ5quzROfCH8CXwYzBiVm7fekTlGHF3iopNG12EwiUPzsovKhhJtnEPkR76xktssapNPhWRi%2FflmQFDcKdtwJ%2F36O8xnvWM7m7IugnQKMMgxqhN1cSWgjeARQket7lAZEUHL4xRga976tRq%2BhMZowVqHhEU8bNeYg5EytUFzQxnBSTRUpHeEAT%2Fv8xnh9Lc3Ui6R1J%2BB9Xes72RqFJB%2BQM7r9PJlt35MOKJzzS5q8VqP9LDzo%2FZyDcETaCN1%2BI%2F0Ilj3%2BelYlTY%2BWIQ%3D/2%2FOu1RscgpVM1%2Ft2';
+    // Discord Webhook URL - REPLACE WITH YOUR ACTUAL WEBHOOK URL
+    const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/your-webhook-url';
 
-        // DOM Elements
-        const registerCard = document.getElementById('register-card');
-        const verificationCard = document.getElementById('verification-card');
-        const registerForm = document.getElementById('register-form');
-        const verificationForm = document.getElementById('verification-form');
-        const resendCodeLink = document.getElementById('resend-code');
-        const avatarUpload = document.getElementById('avatar-upload');
-        const avatarPreview = document.getElementById('avatar-preview');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
-        const logoutBtn = document.getElementById('logout-btn');
+    // DOM Elements
+    const registerCard = document.getElementById('register-card');
+    const verificationCard = document.getElementById('verification-card');
+    const registerForm = document.getElementById('register-form');
+    const verificationForm = document.getElementById('verification-form');
+    const resendCodeLink = document.getElementById('resend-code');
+    const avatarUpload = document.getElementById('avatar-upload');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    const logoutBtn = document.getElementById('logout-btn');
 
-        // State variables
-        let verificationCode = '';
-        let profileImageFile = null;
-        let emailForVerification = '';
-        let discordUsername = '';
+    // State variables
+    let verificationCode = '';
+    let profileImageFile = null;
+    let emailForVerification = '';
+    let discordUserId = '';
 
-        // Event Listeners
-        resendCodeLink.addEventListener('click', (e) => {
-            e.preventDefault();
+    // Event Listeners
+    resendCodeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        verificationCode = generateVerificationCode();
+        sendDiscordVerificationMessage(discordUserId, verificationCode);
+        showToast('New verification code sent to your Discord', 'success');
+    });
+
+    avatarUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            profileImageFile = file;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                avatarPreview.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Form Submissions
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        discordUserId = document.getElementById('discord-userid').value;
+        const password = document.getElementById('password').value;
+        const displayName = document.getElementById('display-name').value;
+        
+        if (!email || !password || !displayName || !discordUserId) {
+            showToast('Please fill all fields', 'error');
+            return;
+        }
+        
+        try {
+            // Generate verification code
             verificationCode = generateVerificationCode();
-            sendDiscordVerificationMessage(discordUsername, verificationCode);
-            showToast('New verification code sent to your Discord', 'success');
-        });
+            emailForVerification = email;
+            
+            // Send verification code via Discord
+            await sendDiscordVerificationMessage(discordUserId, verificationCode);
+            showToast('Verification code sent to your Discord', 'success');
+            
+            // Switch to verification page
+            registerCard.style.display = 'none';
+            verificationCard.style.display = 'block';
+            
+            // Store form data temporarily
+            sessionStorage.setItem('registerData', JSON.stringify({
+                email,
+                password,
+                displayName,
+                discordUserId
+            }));
+        } catch (error) {
+            showToast(error.message, 'error');
+        }
+    });
 
-        avatarUpload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                profileImageFile = file;
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    avatarPreview.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
+    verificationForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Get verification code from inputs
+        const inputs = verificationForm.querySelectorAll('input');
+        let enteredCode = '';
+        inputs.forEach(input => {
+            enteredCode += input.value;
         });
-
-        // Form Submissions
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        
+        if (enteredCode !== verificationCode) {
+            showToast('Invalid verification code', 'error');
+            return;
+        }
+        
+        // Get stored registration data
+        const registerData = JSON.parse(sessionStorage.getItem('registerData'));
+        if (!registerData) {
+            showToast('Session expired. Please register again.', 'error');
+            window.location.href = '/register';
+            return;
+        }
+        
+        const { email, password, displayName, discordUserId } = registerData;
+        
+        try {
+            // Create user
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
             
-            const email = document.getElementById('email').value;
-            discordUsername = document.getElementById('discord-username').value;
-            const password = document.getElementById('password').value;
-            const displayName = document.getElementById('display-name').value;
-            
-            if (!email || !password || !displayName || !discordUsername) {
-                showToast('Please fill all fields', 'error');
-                return;
+            // Upload profile image if exists
+            let avatarUrl = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(email)}`;
+            if (profileImageFile) {
+                const storageRef = ref(storage, `avatars/${user.uid}`);
+                const snapshot = await uploadBytes(storageRef, profileImageFile);
+                avatarUrl = await getDownloadURL(snapshot.ref);
             }
             
-            if (!discordUsername.startsWith('@')) {
-                showToast('Discord username must start with @', 'error');
-                return;
-            }
-            
-            try {
-                // Generate verification code
-                verificationCode = generateVerificationCode();
-                emailForVerification = email;
-                
-                // Send verification code via Discord
-                await sendDiscordVerificationMessage(discordUsername, verificationCode);
-                showToast('Verification code sent to your Discord', 'success');
-                
-                // Switch to verification page
-                registerCard.style.display = 'none';
-                verificationCard.style.display = 'block';
-                
-                // Store form data temporarily
-                sessionStorage.setItem('registerData', JSON.stringify({
-                    email,
-                    password,
-                    displayName,
-                    discordUsername
-                }));
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        });
-
-        verificationForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Get verification code from inputs
-            const inputs = verificationForm.querySelectorAll('input');
-            let enteredCode = '';
-            inputs.forEach(input => {
-                enteredCode += input.value;
+            // Create user profile in Firestore
+            await setDoc(doc(db, 'users', user.uid), {
+                uid: user.uid,
+                email: email,
+                discordUserId: discordUserId,
+                displayName: displayName,
+                avatarUrl: avatarUrl,
+                followers: 0,
+                following: 0,
+                likes: 0,
+                role: 'member',
+                createdAt: new Date(),
+                emailVerified: true
             });
             
-            if (enteredCode !== verificationCode) {
-                showToast('Invalid verification code', 'error');
-                return;
-            }
+            showToast('Account created successfully!', 'success');
+            sessionStorage.removeItem('registerData');
             
-            // Get stored registration data
-            const registerData = JSON.parse(sessionStorage.getItem('registerData'));
-            if (!registerData) {
-                showToast('Session expired. Please register again.', 'error');
-                window.location.href = '/register';
-                return;
-            }
-            
-            const { email, password, displayName, discordUsername } = registerData;
-            
-            try {
-                // Create user
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                
-                // Upload profile image if exists
-                let avatarUrl = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(email)}`;
-                if (profileImageFile) {
-                    const storageRef = ref(storage, `avatars/${user.uid}`);
-                    const snapshot = await uploadBytes(storageRef, profileImageFile);
-                    avatarUrl = await getDownloadURL(snapshot.ref);
-                }
-                
-                // Create user profile in Firestore
-                await setDoc(doc(db, 'users', user.uid), {
-                    uid: user.uid,
-                    email: email,
-                    discordUsername: discordUsername,
-                    displayName: displayName,
-                    avatarUrl: avatarUrl,
-                    followers: 0,
-                    following: 0,
-                    likes: 0,
-                    role: 'member',
-                    createdAt: new Date(),
-                    emailVerified: true
-                });
-                
-                showToast('Account created successfully!', 'success');
-                sessionStorage.removeItem('registerData');
-                
-                // Redirect to home page
-                window.location.href = '/';
-            } catch (error) {
-                showToast(error.message, 'error');
+            // Redirect to home page
+            window.location.href = '/';
+        } catch (error) {
+            showToast(error.message, 'error');
+        }
+    });
+
+    // Verification code input handling
+    const codeInputs = verificationForm.querySelectorAll('input');
+    codeInputs.forEach((input, index) => {
+        input.addEventListener('keyup', (e) => {
+            if (e.key === 'Backspace' && index > 0 && !input.value) {
+                codeInputs[index - 1].focus();
+            } else if (input.value && index < codeInputs.length - 1) {
+                codeInputs[index + 1].focus();
             }
         });
+    });
 
-        // Verification code input handling
-        const codeInputs = verificationForm.querySelectorAll('input');
-        codeInputs.forEach((input, index) => {
-            input.addEventListener('keyup', (e) => {
-                if (e.key === 'Backspace' && index > 0 && !input.value) {
-                    codeInputs[index - 1].focus();
-                } else if (input.value && index < codeInputs.length - 1) {
-                    codeInputs[index + 1].focus();
-                }
-            });
-        });
+    // Helper Functions
+    function generateVerificationCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
 
-        // Helper Functions
-        function generateVerificationCode() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
+    function showToast(message, type = 'success') {
+        toastMessage.textContent = message;
+        toast.className = `toast ${type} show`;
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
 
-        function showToast(message, type = 'success') {
-            toastMessage.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        async function sendDiscordVerificationMessage(username, code) {
-            try {
-                const response = await fetch(DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: 'DreamWeave.lol Verification',
-                        avatar_url: 'https://i.imgur.com/7Y3nfpX.png', // Replace with your desired bot avatar
-                        content: `Hey ${username}! Here's your verification code: ${code}\n\nEnter this code on the website to complete your registration.`,
-                        embeds: [
-                            {
-                                title: "DreamWeave.lol Verification",
-                                description: `Your verification code is: **${code}**`,
-                                color: 0x8a63f2,
-                                footer: {
-                                    text: "This code will expire after 10 minutes"
-                                }
+    async function sendDiscordVerificationMessage(userId, code) {
+        try {
+            const response = await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: 'DreamWeave.lol Verification',
+                    avatar_url: 'https://i.imgur.com/7Y3nfpX.png',
+                    content: `<@${userId}>`, // This mentions the user
+                    embeds: [
+                        {
+                            title: "DreamWeave.lol Verification",
+                            description: `Your verification code is: **${code}**`,
+                            color: 0x8a63f2,
+                            footer: {
+                                text: "This code will expire after 10 minutes"
                             }
-                        ]
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to send Discord message');
-                }
-            } catch (error) {
-                console.error('Error sending Discord message:', error);
-                throw error;
+                        }
+                    ]
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to send Discord message');
             }
+        } catch (error) {
+            console.error('Error sending Discord message:', error);
+            throw error;
         }
+    }
 
-        // Hide user menu if not logged in
-        document.getElementById('user-menu').style.display = 'none';
-    </script>
+    // Hide user menu if not logged in
+    document.getElementById('user-menu').style.display = 'none';
+                    </script>
 </body>
 </html>
