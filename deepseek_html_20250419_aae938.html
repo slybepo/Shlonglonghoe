@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Search Bar */
+        .search-container {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background-color: var(--search-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(138, 99, 242, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+
+        /* User Dropdown */
+        .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .dropdown-arrow {
+            color: var(--text-dim);
+            transition: transform 0.2s;
+        }
+
+        .user-menu:hover .dropdown-arrow {
+            color: var(--text);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-menu:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border);
+            margin: 0.5rem 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .categories-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .category-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 90;
+        }
+
+        .admin-toggle {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(138, 99, 242, 0.3);
+            transition: all 0.3s;
+        }
+
+        .admin-toggle:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .admin-form {
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 350px;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-form.show {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .search-container {
+                order: 3;
+                margin: 1rem 0 0;
+                max-width: 100%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .admin-form {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">✦</span>
+            <span>DreamWeave.lol</span>
+        </a>
+        
+        <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-bar" placeholder="Search categories...">
+        </div>
+        
+        <div class="nav-links">
+            <a href="#" class="nav-link">Explore</a>
+            <a href="#" class="nav-link">Features</a>
+            <a href="#" class="nav-link">Community</a>
+            <a href="#" class="nav-link active">Account</a>
+        </div>
+        
+        <div class="user-menu" id="user-menu">
+            <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Guest" class="user-avatar" id="user-avatar">
+            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            
+            <div class="dropdown-menu" id="dropdown-menu">
+                <a href="#" class="dropdown-item">My Profile</a>
+                <a href="#" class="dropdown-item">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Explore</a>
+                <a href="#" class="dropdown-item">Features</a>
+                <a href="#" class="dropdown-item">Community</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Privacy Policy</a>
+                <a href="#" class="dropdown-item" id="logout-btn">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="categories-header">
+            <h2 class="section-title">Game Categories</h2>
+        </div>
+        
+        <div class="categories-grid" id="categories-grid">
+            <!-- Categories will be loaded here -->
+        </div>
+    </main>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="admin-panel">
+        <button class="admin-toggle" id="admin-toggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 3a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path>
+                <path d="M19 6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2"></path>
+                <path d="M5 6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2"></path>
+            </svg>
+        </button>
+        
+        <div class="admin-form" id="admin-form">
+            <h3 class="form-title">Create New Category</h3>
+            <form id="category-form">
+                <div class="form-group">
+                    <label for="category-name" class="form-label">Category Name</label>
+                    <input type="text" id="category-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="category-thumbnail" class="form-label">Thumbnail</label>
+                    <input type="file" id="category-thumbnail" class="form-control" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="global-rating" class="form-label">Global Rating</label>
+                    <input type="number" id="global-rating" class="form-control" min="0" max="5" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="subcategories" class="form-label">Subcategories Count</label>
+                    <input type="number" id="subcategories" class="form-control" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="products" class="form-label">Products Count</label>
+                    <input type="number" id="products" class="form-control" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Category</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Action</a></li>
+                    <li class="footer-link"><a href="#">Adventure</a></li>
+                    <li class="footer-link"><a href="#">RPG</a></li>
+                    <li class="footer-link"><a href="#">Strategy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            signOut,
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc,
+            collection,
+            getDocs,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+        import { 
+            getStorage, 
+            ref, 
+            uploadBytes, 
+            getDownloadURL 
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // DOM Elements
+        const categoriesGrid = document.getElementById('categories-grid');
+        const adminPanel = document.getElementById('admin-panel');
+        const adminToggle = document.getElementById('admin-toggle');
+        const adminForm = document.getElementById('admin-form');
+        const categoryForm = document.getElementById('category-form');
+        const userMenu = document.getElementById('user-menu');
+        const userAvatar = document.getElementById('user-avatar');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // State variables
+        let currentUser = null;
+        let currentUserRole = null;
+
+        // Event Listeners
+        adminToggle.addEventListener('click', () => {
+            adminForm.classList.toggle('show');
+        });
+
+        logoutBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                window.location.href = '/login';
+            }).catch((error) => {
+                console.error('Logout error:', error);
+            });
+        });
+
+        categoryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('category-name').value;
+            const thumbnailFile = document.getElementById('category-thumbnail').files[0];
+            const globalRating = parseFloat(document.getElementById('global-rating').value);
+            const subcategories = parseInt(document.getElementById('subcategories').value);
+            const products = parseInt(document.getElementById('products').value);
+            
+            if (!name || !thumbnailFile || isNaN(globalRating) {
+                alert('Please fill all fields correctly');
+                return;
+            }
+            
+            try {
+                // Upload thumbnail
+                const storageRef = ref(storage, `category-thumbnails/${Date.now()}-${thumbnailFile.name}`);
+                const snapshot = await uploadBytes(storageRef, thumbnailFile);
+                const thumbnailUrl = await getDownloadURL(snapshot.ref);
+                
+                // Create category in Firestore
+                const categoryRef = doc(collection(db, 'categories'));
+                await setDoc(categoryRef, {
+                    id: categoryRef.id,
+                    name,
+                    thumbnailUrl,
+                    globalRating,
+                    subcategories,
+                    products,
+                    createdAt: serverTimestamp(),
+                    createdBy: currentUser.uid
+                });
+                
+                // Reset form
+                categoryForm.reset();
+                adminForm.classList.remove('show');
+                
+                // Reload categories
+                loadCategories();
+            } catch (error) {
+                console.error('Error creating category:', error);
+                alert('Failed to create category');
+            }
+        });
+
+        // Functions
+        async function loadCategories() {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'categories'));
+                categoriesGrid.innerHTML = '';
+                
+                querySnapshot.forEach((doc) => {
+                    const category = doc.data();
+                    createCategoryCard(category);
+                });
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        function createCategoryCard(category) {
+            const card = document.createElement('a');
+            card.href = `#${category.id}`;
+            card.className = 'category-card';
+            card.innerHTML = `
+                <img src="${category.thumbnailUrl}" class="category-bg">
+                <div class="category-overlay">
+                    <h3 class="category-name">${category.name}</h3>
+                    <div class="category-stats">
+                        <span class="stat-item">⭐ ${category.globalRating.toFixed(1)}</span>
+                        <span class="stat-item">📁 ${category.subcategories}</span>
+                        <span class="stat-item">🎮 ${category.products}</span>
+                    </div>
+                </div>
+            `;
+            categoriesGrid.appendChild(card);
+        }
+
+        // Auth State Observer
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            
+            if (user) {
+                // Update user avatar in navbar
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    userAvatar.src = userData.avatarUrl;
+                    currentUserRole = userData.role;
+                    
+                    // Show admin panel if user is staff
+                    if (currentUserRole === 'staff' || currentUserRole === 'admin') {
+                        adminPanel.style.display = 'block';
+                    } else {
+                        adminPanel.style.display = 'none';
+                    }
+                }
+                
+                // Show user menu
+                userMenu.style.display = 'flex';
+            } else {
+                // Show guest avatar
+                userAvatar.src = 'https://api.dicebear.com/7.x/identicon/svg?seed=Guest';
+                userMenu.style.display = 'none';
+                adminPanel.style.display = 'none';
+            }
+            
+            // Load categories
+            loadCategories();
+        });
+
+        // Initialize
+        adminPanel.style.display = 'none';
+        userMenu.style.display = 'none';
+    </script>
+</body>
+</html>
