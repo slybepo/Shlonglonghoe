@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar (same as other pages) */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+        }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .profile-bio {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .follow-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .follow-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .follow-btn.following {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Profile Content */
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+
+        .profile-sidebar {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .profile-main {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        /* Footer (same as other pages) */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">✦</span>
+            <span>DreamWeave.lol</span>
+        </a>
+    </nav>
+
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <img id="profile-avatar" src="https://api.dicebear.com/7.x/identicon/svg?seed=User" class="profile-avatar">
+            <div class="profile-info">
+                <h1 id="profile-name" class="profile-name">Username</h1>
+                <p id="profile-email" class="profile-email">user@example.com</p>
+                <p id="profile-bio" class="profile-bio">This is a sample bio. The user hasn't added anything here yet.</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div id="followers-count" class="stat-value">0</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="following-count" class="stat-value">0</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="likes-count" class="stat-value">0</div>
+                        <div class="stat-label">Likes</div>
+                    </div>
+                </div>
+                <button id="follow-btn" class="follow-btn">Follow</button>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <h3 class="sidebar-title">Details</h3>
+                <p id="join-date">Joined: Loading...</p>
+                <p id="last-active">Last active: Recently</p>
+            </div>
+            
+            <div class="profile-main">
+                <h2>Activity</h2>
+                <p id="user-activity">User activity will appear here...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Action</a></li>
+                    <li class="footer-link"><a href="#">Adventure</a></li>
+                    <li class="footer-link"><a href="#">RPG</a></li>
+                    <li class="footer-link"><a href="#">Strategy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc,
+            setDoc,
+            updateDoc,
+            arrayUnion,
+            arrayRemove,
+            collection,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const profileName = document.getElementById('profile-name');
+        const profileEmail = document.getElementById('profile-email');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const profileBio = document.getElementById('profile-bio');
+        const followersCount = document.getElementById('followers-count');
+        const followingCount = document.getElementById('following-count');
+        const likesCount = document.getElementById('likes-count');
+        const followBtn = document.getElementById('follow-btn');
+        const joinDate = document.getElementById('join-date');
+        const lastActive = document.getElementById('last-active');
+        const userActivity = document.getElementById('user-activity');
+
+        // State variables
+        let currentUser = null;
+        let profileUser = null;
+        let isFollowing = false;
+
+        // Get profile ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const profileUserId = urlParams.get('id') || 'default';
+
+        // Load profile data
+        async function loadProfileData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (userDoc.exists()) {
+                    profileUser = userDoc.data();
+                    renderProfile(profileUser);
+                    
+                    // Check if current user is following this profile
+                    if (currentUser) {
+                        checkFollowingStatus(currentUser.uid, userId);
+                    }
+                } else {
+                    console.error('User not found');
+                    // Redirect or show error
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        // Render profile data
+        function renderProfile(userData) {
+            profileName.textContent = userData.displayName;
+            profileEmail.textContent = userData.email || 'No email provided';
+            profileAvatar.src = userData.avatarUrl;
+            profileBio.textContent = userData.bio || 'This user hasn\'t added a bio yet.';
+            followersCount.textContent = userData.followers || 0;
+            followingCount.textContent = userData.following || 0;
+            likesCount.textContent = userData.likes || 0;
+            
+            if (userData.createdAt) {
+                const joinDateFormatted = userData.createdAt.toDate().toLocaleDateString();
+                joinDate.textContent = `Joined: ${joinDateFormatted}`;
+            }
+        }
+
+        // Check following status
+        async function checkFollowingStatus(currentUserId, profileUserId) {
+            if (currentUserId === profileUserId) {
+                followBtn.style.display = 'none';
+                return;
+            }
+
+            const userDoc = await getDoc(doc(db, 'users', currentUserId));
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                isFollowing = userData.followingUsers && userData.followingUsers.includes(profileUserId);
+                
+                followBtn.textContent = isFollowing ? 'Following' : 'Follow';
+                followBtn.classList.toggle('following', isFollowing);
+            }
+        }
+
+        // Follow/unfollow function
+        async function toggleFollow() {
+            if (!currentUser || !profileUser) return;
+
+            try {
+                const currentUserId = currentUser.uid;
+                const profileUserId = profileUser.uid;
+
+                if (isFollowing) {
+                    // Unfollow
+                    await updateDoc(doc(db, 'users', currentUserId), {
+                        following: arrayRemove(profileUserId),
+                        followingUsers: arrayRemove(profileUserId)
+                    });
+
+                    await updateDoc(doc(db, 'users', profileUserId), {
+                        followers: arrayRemove(currentUserId)
+                    });
+
+                    isFollowing = false;
+                    followBtn.textContent = 'Follow';
+                    followBtn.classList.remove('following');
+                    followersCount.textContent = parseInt(followersCount.textContent) - 1;
+                } else {
+                    // Follow
+                    await updateDoc(doc(db, 'users', currentUserId), {
+                        following: arrayUnion(profileUserId),
+                        followingUsers: arrayUnion(profileUserId)
+                    });
+
+                    await updateDoc(doc(db, 'users', profileUserId), {
+                        followers: arrayUnion(currentUserId)
+                    });
+
+                    isFollowing = true;
+                    followBtn.textContent = 'Following';
+                    followBtn.classList.add('following');
+                    followersCount.textContent = parseInt(followersCount.textContent) + 1;
+                }
+            } catch (error) {
+                console.error('Error toggling follow:', error);
+            }
+        }
+
+        // Event Listeners
+        followBtn.addEventListener('click', toggleFollow);
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            loadProfileData(profileUserId);
+        });
+
+        // Initialize
+        loadProfileData(profileUserId);
+    </script>
+</body>
+</html>
