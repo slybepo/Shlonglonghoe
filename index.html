@@ -364,6 +364,69 @@
                 grid-template-columns: 1fr;
             }
         }
+         /* User Dropdown */
+        .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .dropdown-arrow {
+            color: var(--text-dim);
+            transition: transform 0.2s;
+        }
+
+        .user-menu:hover .dropdown-arrow {
+            color: var(--text);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-menu:hover .dropdown-menu {
+            display: block;
+        }
+           .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -373,6 +436,18 @@
             <span class="logo-icon">✦</span>
             <span>DreamWeave.lol</span>
         </a>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Explore</a>
+            <a href="#" class="nav-link">Features</a>
+            <a href="#" class="nav-link">Community</a>
+            <a href="#" class="nav-link active">Account</a>
+        </div>
+        
+        <div class="user-menu" id="user-menu">
+            <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Guest" class="user-avatar" id="user-avatar">
+            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
     </nav>
 
     <!-- Hero Section -->
