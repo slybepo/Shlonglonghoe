@@ -469,7 +469,8 @@
                 </div>
                 <div class="form-group">
                     <label for="discord-username" class="form-label">Discord Userid (userid)</label>
-                    <input type="text" id="discord-username" class="form-control" placeholder="@userid" required>
+                    <input type="text" id="discorduser
+                        " class="form-control" placeholder="@userid" required>
                 </div>
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
@@ -560,7 +561,7 @@
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
         const logoutBtn = document.getElementById('logout-btn');
-
+        const discuser = document.getElementById('discorduser');
         // State variables
         let verificationCode = '';
         let profileImageFile = null;
@@ -610,7 +611,7 @@
                 emailForVerification = email;
                 
                 // Send verification code via Discord
-                await sendDiscordVerificationMessage(discordUsername, verificationCode);
+                await sendDiscordVerificationMessage(discuser, verificationCode);
                 showToast('Verification code sent to your Discord', 'success');
                 
                 // Switch to verification page
