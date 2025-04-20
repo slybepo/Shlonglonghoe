@@ -32,8 +32,8 @@
             background-color: var(--bg-dark);
             color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-image: radial-gradient(circle at 25% 25%, rgba(138, 99, 242, 0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(0, 184, 148, 0.15) 0%, transparent 50%);
         }
 
         /* Navbar */
@@ -44,9 +44,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
@@ -63,246 +60,248 @@
             color: var(--primary);
         }
 
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: var(--text);
-        }
-
-        .nav-link.active {
-            color: var(--primary);
-        }
-
-        /* Search Bar */
-        .search-container {
-            flex-grow: 1;
-            max-width: 500px;
-            margin: 0 2rem;
-            position: relative;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            background-color: var(--search-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.95rem;
-            transition: all 0.2s;
-        }
-
-        .search-bar:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(138, 99, 242, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-dim);
-        }
-
-        /* User Dropdown */
-        .user-menu {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-        }
-
-        .dropdown-arrow {
-            color: var(--text-dim);
-            transition: transform 0.2s;
-        }
-
-        .user-menu:hover .dropdown-arrow {
-            color: var(--text);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--bg-darker);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.5rem 0;
-            min-width: 200px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            display: none;
-            z-index: 1000;
-        }
-
-        .user-menu:hover .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 0.75rem 1.5rem;
-            color: var(--text);
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .dropdown-divider {
-            height: 1px;
-            background-color: var(--border);
-            margin: 0.5rem 0;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-            max-width: 1400px;
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 800px;
             margin: 0 auto;
-            width: 100%;
         }
 
-        .categories-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), #00b894);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-dim);
             margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 3rem auto;
+            color: var(--text-dim);
+            max-width: 800px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .divider-text {
+            padding: 0 1rem;
+        }
+
+        /* Products Section */
+        .products-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
         }
 
         .section-title {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 700;
+            margin-bottom: 2rem;
             color: var(--text-light);
+            text-align: center;
         }
 
-        .categories-grid {
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
-        .category-card {
+        .product-card {
             position: relative;
             border-radius: 12px;
             overflow: hidden;
-            aspect-ratio: 16/9;
+            aspect-ratio: 3/4;
             transition: transform 0.3s ease;
         }
 
-        .category-card:hover {
+        .product-card:hover {
             transform: translateY(-5px);
         }
 
-        .category-bg {
+        .product-bg {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .category-overlay {
+        .product-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
             padding: 1.5rem;
             color: white;
+            display: flex;
+            flex-direction: column;
         }
 
-        .category-name {
+        .product-name {
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
-        .category-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-dim);
+        .product-description {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
         }
 
-        .stat-item {
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .product-buy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .product-buy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .rating-container {
             display: flex;
             align-items: center;
+            margin-bottom: 1rem;
             gap: 0.25rem;
+        }
+
+        .rating-star {
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating-star.active {
+            color: #ffc107;
         }
 
         /* Admin Panel */
         .admin-panel {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 90;
+            background-color: var(--bg-darker);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .admin-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-light);
         }
 
         .admin-toggle {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(138, 99, 242, 0.3);
-            transition: all 0.3s;
+            color: var(--text-dim);
+            transition: transform 0.3s;
         }
 
-        .admin-toggle:hover {
-            background-color: var(--primary-dark);
-            transform: scale(1.1);
+        .admin-toggle.collapsed {
+            transform: rotate(-90deg);
         }
 
         .admin-form {
-            background-color: var(--bg-darker);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .form-control {
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-dark);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            width: 350px;
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            display: none;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
         }
 
-        .admin-form.show {
-            display: block;
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
-        .form-title {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: var(--text-light);
+        .form-submit {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .form-submit:hover {
+            background-color: var(--primary-dark);
         }
 
         /* Footer */
@@ -310,7 +309,6 @@
             background-color: var(--bg-darker);
             padding: 2rem;
             border-top: 1px solid var(--border);
-            margin-top: 3rem;
         }
 
         .footer-content {
@@ -354,23 +352,16 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-                flex-wrap: wrap;
+            .hero-title {
+                font-size: 2rem;
             }
             
-            .search-container {
-                order: 3;
-                margin: 1rem 0 0;
-                max-width: 100%;
+            .hero-subtitle {
+                font-size: 1rem;
             }
             
-            .nav-links {
-                display: none;
-            }
-            
-            .admin-form {
-                width: 300px;
+            .products-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -382,87 +373,55 @@
             <span class="logo-icon">✦</span>
             <span>DreamWeave.lol</span>
         </a>
-        
-        <div class="search-container">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" class="search-bar" placeholder="Search categories...">
-        </div>
-        
-        <div class="nav-links">
-            <a href="#" class="nav-link">Explore</a>
-            <a href="#" class="nav-link">Features</a>
-            <a href="#" class="nav-link">Community</a>
-            <a href="#" class="nav-link active">Account</a>
-        </div>
-        
-        <div class="user-menu" id="user-menu">
-            <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Guest" class="user-avatar" id="user-avatar">
-            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-            
-            <div class="dropdown-menu" id="dropdown-menu">
-                <a href="#" class="dropdown-item">My Profile</a>
-                <a href="#" class="dropdown-item">Settings</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Explore</a>
-                <a href="#" class="dropdown-item">Features</a>
-                <a href="#" class="dropdown-item">Community</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Privacy Policy</a>
-                <a href="#" class="dropdown-item" id="logout-btn">Logout</a>
-            </div>
-        </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="categories-header">
-            <h2 class="section-title">Game Categories</h2>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Discover Amazing Digital Products</h1>
+        <p class="hero-subtitle">Explore our curated collection of high-quality digital assets, tools, and resources to enhance your creative projects and workflow.</p>
+        <a href="/categories" class="hero-btn">Browse Categories</a>
+    </section>
+
+    <div class="divider">
+        <span class="divider-text">Featured Products</span>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <h2 class="section-title">Popular Products</h2>
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be loaded here -->
         </div>
-        
-        <div class="categories-grid" id="categories-grid">
-            <!-- Categories will be loaded here -->
-        </div>
-    </main>
+    </section>
 
     <!-- Admin Panel -->
-    <div class="admin-panel" id="admin-panel">
-        <button class="admin-toggle" id="admin-toggle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 3a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path>
-                <path d="M19 6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2"></path>
-                <path d="M5 6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2"></path>
+    <div class="admin-panel" id="admin-panel" style="display: none;">
+        <div class="admin-header" id="admin-toggle">
+            <h3 class="admin-title">Add New Product</h3>
+            <svg class="admin-toggle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
             </svg>
-        </button>
+        </div>
         
         <div class="admin-form" id="admin-form">
-            <h3 class="form-title">Create New Category</h3>
-            <form id="category-form">
+            <form id="product-form">
                 <div class="form-group">
-                    <label for="category-name" class="form-label">Category Name</label>
-                    <input type="text" id="category-name" class="form-control" required>
+                    <label for="product-name" class="form-label">Product Name</label>
+                    <input type="text" id="product-name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="category-thumbnail" class="form-label">Thumbnail</label>
-                    <input type="file" id="category-thumbnail" class="form-control" accept="image/*" required>
+                    <label for="product-description" class="form-label">Description</label>
+                    <textarea id="product-description" class="form-control" rows="3" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="global-rating" class="form-label">Global Rating</label>
-                    <input type="number" id="global-rating" class="form-control" min="0" max="5" step="0.1" required>
+                    <label for="product-price" class="form-label">Price ($)</label>
+                    <input type="number" id="product-price" class="form-control" min="0" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label for="subcategories" class="form-label">Subcategories Count</label>
-                    <input type="number" id="subcategories" class="form-control" min="0" required>
+                    <label for="product-thumbnail" class="form-label">Thumbnail Image</label>
+                    <input type="file" id="product-thumbnail" class="form-control" accept="image/*" required>
                 </div>
-                <div class="form-group">
-                    <label for="products" class="form-label">Products Count</label>
-                    <input type="number" id="products" class="form-control" min="0" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Create Category</button>
+                <button type="submit" class="form-submit">Add Product</button>
             </form>
         </div>
     </div>
@@ -524,7 +483,6 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
         import { 
             getAuth, 
-            signOut,
             onAuthStateChanged
         } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
         import { 
@@ -533,6 +491,8 @@
             setDoc,
             collection,
             getDocs,
+            updateDoc,
+            arrayUnion,
             serverTimestamp
         } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
         import { 
@@ -548,109 +508,176 @@
         const storage = getStorage(app);
 
         // DOM Elements
-        const categoriesGrid = document.getElementById('categories-grid');
+        const productsGrid = document.getElementById('products-grid');
         const adminPanel = document.getElementById('admin-panel');
         const adminToggle = document.getElementById('admin-toggle');
         const adminForm = document.getElementById('admin-form');
-        const categoryForm = document.getElementById('category-form');
-        const userMenu = document.getElementById('user-menu');
-        const userAvatar = document.getElementById('user-avatar');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        // State variables
+        const productForm = document.getElementById('product-form');
         let currentUser = null;
-        let currentUserRole = null;
 
         // Event Listeners
         adminToggle.addEventListener('click', () => {
-            adminForm.classList.toggle('show');
+            adminForm.style.display = adminForm.style.display === 'none' ? 'flex' : 'none';
+            adminToggle.querySelector('svg').classList.toggle('collapsed');
         });
 
-        logoutBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            signOut(auth).then(() => {
-                window.location.href = '/login';
-            }).catch((error) => {
-                console.error('Logout error:', error);
-            });
-        });
-
-        categoryForm.addEventListener('submit', async (e) => {
+        productForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const name = document.getElementById('category-name').value;
-            const thumbnailFile = document.getElementById('category-thumbnail').files[0];
-            const globalRating = parseFloat(document.getElementById('global-rating').value);
-            const subcategories = parseInt(document.getElementById('subcategories').value);
-            const products = parseInt(document.getElementById('products').value);
+            const name = document.getElementById('product-name').value;
+            const description = document.getElementById('product-description').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const thumbnailFile = document.getElementById('product-thumbnail').files[0];
             
-            if (!name || !thumbnailFile || isNaN(globalRating) {
+            if (!name || !description || isNaN(price) || !thumbnailFile) {
                 alert('Please fill all fields correctly');
                 return;
             }
             
             try {
-                // Upload thumbnail
-                const storageRef = ref(storage, `category-thumbnails/${Date.now()}-${thumbnailFile.name}`);
-                const snapshot = await uploadBytes(storageRef, thumbnailFile);
-                const thumbnailUrl = await getDownloadURL(snapshot.ref);
+                // Upload thumbnail to imgBB (or Firebase Storage)
+                const imgbbApiKey = 'your-imgbb-api-key'; // Replace with your actual API key
+                const formData = new FormData();
+                formData.append('image', thumbnailFile);
                 
-                // Create category in Firestore
-                const categoryRef = doc(collection(db, 'categories'));
-                await setDoc(categoryRef, {
-                    id: categoryRef.id,
+                // Upload to imgBB
+                const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const imgbbData = await imgbbResponse.json();
+                const thumbnailUrl = imgbbData.data.url;
+                
+                // Create product in Firestore
+                const productRef = doc(collection(db, 'products'));
+                await setDoc(productRef, {
+                    id: productRef.id,
                     name,
+                    description,
+                    price,
                     thumbnailUrl,
-                    globalRating,
-                    subcategories,
-                    products,
+                    ownerId: currentUser.uid,
+                    ownerName: currentUser.displayName || 'Anonymous',
                     createdAt: serverTimestamp(),
-                    createdBy: currentUser.uid
+                    ratings: {},
+                    averageRating: 0,
+                    ratingCount: 0
                 });
                 
                 // Reset form
-                categoryForm.reset();
-                adminForm.classList.remove('show');
+                productForm.reset();
+                adminForm.style.display = 'none';
+                adminToggle.querySelector('svg').classList.add('collapsed');
                 
-                // Reload categories
-                loadCategories();
+                // Reload products
+                loadProducts();
             } catch (error) {
-                console.error('Error creating category:', error);
-                alert('Failed to create category');
+                console.error('Error creating product:', error);
+                alert('Failed to create product');
             }
         });
 
         // Functions
-        async function loadCategories() {
+        async function loadProducts() {
             try {
-                const querySnapshot = await getDocs(collection(db, 'categories'));
-                categoriesGrid.innerHTML = '';
+                const querySnapshot = await getDocs(collection(db, 'products'));
+                productsGrid.innerHTML = '';
                 
                 querySnapshot.forEach((doc) => {
-                    const category = doc.data();
-                    createCategoryCard(category);
+                    const product = doc.data();
+                    createProductCard(product);
                 });
             } catch (error) {
-                console.error('Error loading categories:', error);
+                console.error('Error loading products:', error);
             }
         }
 
-        function createCategoryCard(category) {
-            const card = document.createElement('a');
-            card.href = `#${category.id}`;
-            card.className = 'category-card';
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
             card.innerHTML = `
-                <img src="${category.thumbnailUrl}" class="category-bg">
-                <div class="category-overlay">
-                    <h3 class="category-name">${category.name}</h3>
-                    <div class="category-stats">
-                        <span class="stat-item">⭐ ${category.globalRating.toFixed(1)}</span>
-                        <span class="stat-item">📁 ${category.subcategories}</span>
-                        <span class="stat-item">🎮 ${category.products}</span>
+                <img src="${product.thumbnailUrl}" class="product-bg">
+                <div class="product-overlay">
+                    <h3 class="product-name">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="rating-container" data-product-id="${product.id}">
+                        ${[1, 2, 3, 4, 5].map(star => `
+                            <span class="rating-star" data-rating="${star}">★</span>
+                        `).join('')}
+                        <span class="rating-average">(${product.averageRating.toFixed(1)})</span>
                     </div>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    <button class="product-buy-btn">Buy Now</button>
                 </div>
             `;
-            categoriesGrid.appendChild(card);
+            productsGrid.appendChild(card);
+            
+            // Set initial star ratings
+            const ratingContainer = card.querySelector('.rating-container');
+            const stars = ratingContainer.querySelectorAll('.rating-star');
+            const averageRating = product.averageRating;
+            
+            stars.forEach(star => {
+                const ratingValue = parseInt(star.dataset.rating);
+                if (ratingValue <= Math.round(averageRating)) {
+                    star.classList.add('active');
+                }
+                
+                // Add click event for rating
+                star.addEventListener('click', async () => {
+                    if (!currentUser) {
+                        alert('Please login to rate products');
+                        return;
+                    }
+                    
+                    const newRating = parseInt(star.dataset.rating);
+                    await rateProduct(product.id, currentUser.uid, newRating);
+                    
+                    // Update UI
+                    stars.forEach((s, index) => {
+                        if (index < newRating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        async function rateProduct(productId, userId, rating) {
+            try {
+                const productRef = doc(db, 'products', productId);
+                const productDoc = await getDoc(productRef);
+                const productData = productDoc.data();
+                
+                // Check if user already rated
+                const userRating = productData.ratings[userId] || 0;
+                const ratingCount = productData.ratingCount;
+                let newAverage = productData.averageRating;
+                
+                // Calculate new average
+                if (userRating > 0) {
+                    // User changing their rating
+                    newAverage = ((productData.averageRating * ratingCount) - userRating + rating) / ratingCount;
+                } else {
+                    // New rating
+                    newAverage = ((productData.averageRating * ratingCount) + rating) / (ratingCount + 1);
+                }
+                
+                // Update product
+                await updateDoc(productRef, {
+                    [`ratings.${userId}`]: rating,
+                    averageRating: newAverage,
+                    ratingCount: userRating > 0 ? ratingCount : ratingCount + 1
+                });
+                
+                // Reload the product to update UI
+                loadProducts();
+            } catch (error) {
+                console.error('Error rating product:', error);
+            }
         }
 
         // Auth State Observer
@@ -658,37 +685,23 @@
             currentUser = user;
             
             if (user) {
-                // Update user avatar in navbar
+                // Check if user is staff/admin
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
-                    userAvatar.src = userData.avatarUrl;
-                    currentUserRole = userData.role;
-                    
-                    // Show admin panel if user is staff
-                    if (currentUserRole === 'staff' || currentUserRole === 'admin') {
+                    if (userData.role === 'staff' || userData.role === 'admin') {
                         adminPanel.style.display = 'block';
-                    } else {
-                        adminPanel.style.display = 'none';
                     }
                 }
-                
-                // Show user menu
-                userMenu.style.display = 'flex';
-            } else {
-                // Show guest avatar
-                userAvatar.src = 'https://api.dicebear.com/7.x/identicon/svg?seed=Guest';
-                userMenu.style.display = 'none';
-                adminPanel.style.display = 'none';
             }
             
-            // Load categories
-            loadCategories();
+            // Load products
+            loadProducts();
         });
 
         // Initialize
-        adminPanel.style.display = 'none';
-        userMenu.style.display = 'none';
+        adminForm.style.display = 'none';
+        adminToggle.querySelector('svg').classList.add('collapsed');
     </script>
 </body>
 </html>
