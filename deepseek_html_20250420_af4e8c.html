@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+        }
+
+        /* Auth Container */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 72px);
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .auth-subtitle {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(138, 99, 242, 0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-github {
+            background-color: #24292e;
+            color: white;
+        }
+
+        .btn-github:hover {
+            background-color: #1a1e22;
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-dim);
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .divider-text {
+            padding: 0 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Cloudflare Turnstile */
+        .cf-turnstile {
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .auth-card {
+                padding: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">✦</span>
+            <span>DreamWeave.lol</span>
+        </a>
+    </nav>
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Join DreamWeave</h1>
+                <p class="auth-subtitle">Create your account to get started</p>
+            </div>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="display-name" class="form-label">Display Name</label>
+                    <input type="text" id="display-name" class="form-control" required>
+                </div>
+                
+                <!-- Cloudflare Turnstile Captcha -->
+                <div class="cf-turnstile" data-sitekey="your-cloudflare-sitekey"></div>
+                
+                <button type="submit" class="btn btn-primary">Register</button>
+                
+                <div class="divider">
+                    <span class="divider-text">OR</span>
+                </div>
+                
+                <button type="button" id="github-login" class="btn btn-github">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    Continue with GitHub
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                Already have an account? <a href="/login" class="auth-link">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Action</a></li>
+                    <li class="footer-link"><a href="#">Adventure</a></li>
+                    <li class="footer-link"><a href="#">RPG</a></li>
+                    <li class="footer-link"><a href="#">Strategy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword,
+            signInWithPopup,
+            GithubAuthProvider
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const githubProvider = new GithubAuthProvider();
+
+        // DOM Elements
+        const registerForm = document.getElementById('register-form');
+        const githubLoginBtn = document.getElementById('github-login');
+
+        // Event Listeners
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const displayName = document.getElementById('display-name').value;
+            
+            if (!email || !password || !displayName) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            try {
+                // Cloudflare verification happens automatically before form submission
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Create user profile in Firestore
+                await setDoc(doc(db, 'users', user.uid), {
+                    uid: user.uid,
+                    email: email,
+                    displayName: displayName,
+                    avatarUrl: `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(email)}`,
+                    followers: 0,
+                    following: 0,
+                    likes: 0,
+                    role: 'member',
+                    createdAt: new Date()
+                });
+                
+                // Redirect to home page
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert(error.message);
+            }
+        });
+
+        githubLoginBtn.addEventListener('click', async () => {
+            try {
+                const result = await signInWithPopup(auth, githubProvider);
+                const user = result.user;
+                
+                // Create user profile in Firestore
+                await setDoc(doc(db, 'users', user.uid), {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || user.reloadUserInfo.screenName,
+                    avatarUrl: user.photoURL || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(user.email)}`,
+                    followers: 0,
+                    following: 0,
+                    likes: 0,
+                    role: 'member',
+                    createdAt: new Date(),
+                    provider: 'github'
+                });
+                
+                // Redirect to home page
+                window.location.href = '/';
+            } catch (error) {
+                console.error('GitHub login error:', error);
+                alert(error.message);
+            }
+        });
+
+        // Cloudflare Turnstile callback
+        window.onTurnstileCallback = function(token) {
+            console.log('Cloudflare verification successful');
+        };
+    </script>
+    
+    <!-- Cloudflare Turnstile (replace with your actual sitekey) -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileCallback" defer></script>
+</body>
+</html>
