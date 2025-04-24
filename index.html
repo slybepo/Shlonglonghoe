@@ -759,7 +759,7 @@
                 });
             } catch (error) {
                 console.error('Error loading products:', error);
-                showNotification('Failed to load products', false);
+                showNotification(error, false);
             }
         }
 
@@ -813,7 +813,7 @@
             }
             
             // Hide staff panel if not staff/admin or not logged in
-            staffPanel.style.display = 'none';
+            staffPanel.style.display = 'block';
             
             // Load products
             loadProducts();
