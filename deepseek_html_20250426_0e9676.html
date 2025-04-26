@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product | DreamWeave.lol</title>
+    
+    <!-- Discord Embed Meta Tags -->
+    <meta property="og:title" content="" id="discord-title">
+    <meta property="og:description" content="" id="discord-desc">
+    <meta property="og:image" content="" id="discord-image">
+    <meta property="og:url" content="" id="discord-url">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#8a63f2">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(circle at 25% 25%, rgba(138, 99, 242, 0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(0, 184, 148, 0.15) 0%, transparent 50%);
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--bg-darker);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--text);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg-dark);
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding-bottom: 2rem;
+        }
+
+        /* Product Detail Section */
+        .product-detail {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-main-image {
+            width: 100%;
+            border-radius: 12px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .product-creator {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: var(--text-dim);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .buy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            text-align: center;
+            flex: 1;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .wishlist-btn {
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+        }
+
+        .wishlist-btn:hover {
+            background-color: var(--bg-darker);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .buy-btn, .wishlist-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="https://via.placeholder.com/32x32" alt="DreamWeave Logo" class="logo-img">
+            <span>DreamWeave.lol</span>
+        </a>
+        
+        <div class="nav-links">
+            <a href="/products" class="nav-link">Products</a>
+            <a href="/about" class="nav-link">About</a>
+            
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown" id="profile-dropdown">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=User" class="profile-avatar" id="nav-avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content" id="dropdown-content">
+                    <a href="/profile" id="profile-link">Profile</a>
+                    <a href="/settings">Settings</a>
+                    <a href="/purchases">My Purchases</a>
+                    <a href="#" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Product Detail Section -->
+        <section class="product-detail" id="product-detail">
+            <!-- Product will be loaded here -->
+            <div class="product-gallery">
+                <img id="product-image" src="" class="product-main-image">
+            </div>
+            <div class="product-info">
+                <h1 id="product-title" class="product-title">Loading Product...</h1>
+                <p id="product-creator" class="product-creator"></p>
+                <div id="product-price" class="product-price"></div>
+                <p id="product-description" class="product-description"></p>
+                <div class="product-actions">
+                    <a id="buy-btn" href="#" class="buy-btn">Buy Now</a>
+                    <button class="wishlist-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Action</a></li>
+                    <li class="footer-link"><a href="#">Adventure</a></li>
+                    <li class="footer-link"><a href="#">RPG</a></li>
+                    <li class="footer-link"><a href="#">Strategy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const productImage = document.getElementById('product-image');
+        const productTitle = document.getElementById('product-title');
+        const productCreator = document.getElementById('product-creator');
+        const productPrice = document.getElementById('product-price');
+        const productDescription = document.getElementById('product-description');
+        const buyBtn = document.getElementById('buy-btn');
+        const navAvatar = document.getElementById('nav-avatar');
+        const profileLink = document.getElementById('profile-link');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Discord Embed Elements
+        const discordTitle = document.getElementById('discord-title');
+        const discordDesc = document.getElementById('discord-desc');
+        const discordImage = document.getElementById('discord-image');
+        const discordUrl = document.getElementById('discord-url');
+
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        // Load product data
+        async function loadProduct() {
+            if (!productId) {
+                productTitle.textContent = 'Product Not Found';
+                return;
+            }
+
+            try {
+                const productRef = doc(db, 'products', productId);
+                const productDoc = await getDoc(productRef);
+                
+                if (productDoc.exists()) {
+                    const product = productDoc.data();
+                    displayProduct(product);
+                    updateDiscordEmbed(product);
+                } else {
+                    productTitle.textContent = 'Product Not Found';
+                }
+            } catch (error) {
+                console.error('Error loading product:', error);
+                productTitle.textContent = 'Error Loading Product';
+            }
+        }
+
+        function displayProduct(product) {
+            productImage.src = product.thumbnailUrl;
+            productTitle.textContent = product.name;
+            productCreator.textContent = `Created by ${product.ownerName}`;
+            productPrice.textContent = `$${product.price.toFixed(2)}`;
+            productDescription.textContent = product.description;
+            buyBtn.href = product.stripeLink;
+        }
+
+        function updateDiscordEmbed(product) {
+            discordTitle.setAttribute('content', product.name);
+            discordDesc.setAttribute('content', product.description);
+            discordImage.setAttribute('content', product.thumbnailUrl);
+            discordUrl.setAttribute('content', window.location.href);
+            
+            // Also update regular meta tags for other platforms
+            document.title = `${product.name} | DreamWeave.lol`;
+            
+            // Add Twitter card meta tags for better sharing
+            const twitterCard = document.createElement('meta');
+            twitterCard.name = 'twitter:card';
+            twitterCard.content = 'summary_large_image';
+            document.head.appendChild(twitterCard);
+            
+            const twitterTitle = document.createElement('meta');
+            twitterTitle.name = 'twitter:title';
+            twitterTitle.content = product.name;
+            document.head.appendChild(twitterTitle);
+            
+            const twitterDesc = document.createElement('meta');
+            twitterDesc.name = 'twitter:description';
+            twitterDesc.content = product.description;
+            document.head.appendChild(twitterDesc);
+            
+            const twitterImage = document.createElement('meta');
+            twitterImage.name = 'twitter:image';
+            twitterImage.content = product.thumbnailUrl;
+            document.head.appendChild(twitterImage);
+        }
+
+        // Logout function
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth);
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Update profile dropdown
+                navAvatar.src = user.photoURL || `https://api.dicebear.com/7.x/identicon/svg?seed=${user.uid}`;
+                profileLink.href = `/profile?id=${user.uid}`;
+            } else {
+                navAvatar.src = 'https://api.dicebear.com/7.x/identicon/svg?seed=Guest';
+                profileLink.href = '/login';
+            }
+        });
+
+        // Initialize
+        loadProduct();
+    </script>
+</body>
+</html>
