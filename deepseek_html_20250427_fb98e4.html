@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Bundles | DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 25% 25%, rgba(138, 99, 242, 0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(0, 184, 148, 0.15) 0%, transparent 50%);
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Featured Bundle */
+        .featured-bundle {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .bundle-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .bundle-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .bundle-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bundle-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .bundle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .bundle-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .bundle-timer {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .bundle-description {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .bundle-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .rating-star {
+            color: #ffc107;
+        }
+
+        .rating-average {
+            font-weight: 600;
+        }
+
+        .rating-count {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .bundle-buy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .bundle-buy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Staff Panel */
+        .staff-panel {
+            background-color: var(--bg-darker);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .staff-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .staff-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .staff-toggle {
+            color: var(--text-dim);
+            transition: transform 0.3s;
+        }
+
+        .staff-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .staff-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            overflow: hidden;
+            max-height: 1000px;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .staff-form.collapsed {
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .form-control {
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-submit {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            grid-column: span 2;
+        }
+
+        .form-submit:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: var(--success);
+        }
+
+        .notification.error {
+            background-color: var(--error);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bundle-title {
+                font-size: 1.5rem;
+            }
+            
+            .bundle-description {
+                font-size: 0.9rem;
+            }
+            
+            .staff-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
+            .form-submit {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="https://via.placeholder.com/32x32" alt="DreamWeave Logo" class="logo-img">
+            <span>DreamWeave.lol</span>
+        </a>
+        
+        <div class="nav-links">
+            <a href="/products" class="nav-link">Products</a>
+            <a href="/bundles" class="nav-link">Bundles</a>
+            <a href="/about" class="nav-link">About</a>
+        </div>
+    </nav>
+
+    <!-- Featured Bundle -->
+    <section class="featured-bundle">
+        <h2 class="section-title">Today's Featured Bundle</h2>
+        <div class="bundle-card" id="featured-bundle">
+            <!-- Featured bundle will be loaded here -->
+        </div>
+    </section>
+
+    <!-- Staff Panel (Only visible to staff) -->
+    <div class="staff-panel" id="staff-panel" style="display: none;">
+        <div class="staff-header" id="staff-toggle">
+            <h3 class="staff-title">Create New Bundle</h3>
+            <svg class="staff-toggle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
+            </svg>
+        </div>
+        
+        <form id="bundle-form" class="staff-form">
+            <div class="form-group">
+                <label for="bundle-name" class="form-label">Bundle Name*</label>
+                <input type="text" id="bundle-name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="bundle-price" class="form-label">Price ($)*</label>
+                <input type="number" id="bundle-price" class="form-control" min="0" step="0.01" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="bundle-description" class="form-label">Description*</label>
+                <textarea id="bundle-description" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="bundle-stripe-link" class="form-label">Stripe Link*</label>
+                <input type="url" id="bundle-stripe-link" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="bundle-thumbnail" class="form-label">Image URL*</label>
+                <input type="url" id="bundle-thumbnail" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="bundle-products" class="form-label">Product IDs (comma separated)</label>
+                <input type="text" id="bundle-products" class="form-control">
+            </div>
+            <button type="submit" class="form-submit">Create Bundle</button>
+        </form>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Action</a></li>
+                    <li class="footer-link"><a href="#">Adventure</a></li>
+                    <li class="footer-link"><a href="#">RPG</a></li>
+                    <li class="footer-link"><a href="#">Strategy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc,
+            collection,
+            getDocs,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const featuredBundle = document.getElementById('featured-bundle');
+        const staffPanel = document.getElementById('staff-panel');
+        const staffToggle = document.getElementById('staff-toggle');
+        const staffForm = document.getElementById('bundle-form');
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        let currentUser = null;
+        let timerInterval;
+
+        // Event Listeners
+        staffToggle.addEventListener('click', () => {
+            staffForm.classList.toggle('collapsed');
+            staffToggle.querySelector('svg').classList.toggle('collapsed');
+        });
+
+        staffForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('bundle-name').value.trim();
+            const description = document.getElementById('bundle-description').value.trim();
+            const price = parseFloat(document.getElementById('bundle-price').value);
+            const stripeLink = document.getElementById('bundle-stripe-link').value.trim();
+            const thumbnailUrl = document.getElementById('bundle-thumbnail').value.trim();
+            const productIds = document.getElementById('bundle-products').value.trim();
+            
+            // Validate inputs
+            if (!name || !description || isNaN(price) || !stripeLink || !thumbnailUrl) {
+                showNotification('Please fill all required fields correctly', false);
+                return;
+            }
+            
+            if (price <= 0) {
+                showNotification('Price must be greater than 0', false);
+                return;
+            }
+            
+            try {
+                // Create bundle in Firestore
+                const bundleRef = doc(collection(db, 'bundles'));
+                await setDoc(bundleRef, {
+                    id: bundleRef.id,
+                    name,
+                    description,
+                    price,
+                    stripeLink,
+                    thumbnailUrl,
+                    productIds: productIds ? productIds.split(',').map(id => id.trim()) : [],
+                    ownerId: currentUser.uid,
+                    ownerName: currentUser.displayName || 'Anonymous',
+                    createdAt: serverTimestamp(),
+                    ratings: {},
+                    averageRating: 0,
+                    ratingCount: 0,
+                    isFeatured: false // Will be set to true when selected as daily bundle
+                });
+                
+                // Reset form
+                staffForm.reset();
+                showNotification('Bundle created successfully!');
+                
+                // Reload featured bundle (in case this is the first one)
+                loadFeaturedBundle();
+            } catch (error) {
+                console.error('Error creating bundle:', error);
+                showNotification('Failed to create bundle: ' + error.message, false);
+            }
+        });
+
+        // Functions
+        function showNotification(message, isSuccess = true) {
+            notification.className = `notification ${isSuccess ? 'success' : 'error'} show`;
+            notification.querySelector('i').className = isSuccess ? 
+                'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            notificationMessage.textContent = message;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function formatTimeLeft(endTime) {
+            const now = new Date();
+            const diff = endTime - now;
+            
+            if (diff <= 0) return "00:00:00";
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer(endTime) {
+            // Clear any existing timer
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Update immediately
+            const timerElement = document.querySelector('.bundle-timer');
+            if (timerElement) {
+                timerElement.textContent = formatTimeLeft(endTime);
+            }
+            
+            // Update every second
+            timerInterval = setInterval(() => {
+                const timeLeft = formatTimeLeft(endTime);
+                if (timerElement) {
+                    timerElement.textContent = timeLeft;
+                }
+                
+                if (timeLeft === "00:00:00") {
+                    clearInterval(timerInterval);
+                    // Reload the featured bundle when timer expires
+                    loadFeaturedBundle();
+                }
+            }, 1000);
+        }
+
+        function renderRatingStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let starsHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    starsHTML += '<i class="fas fa-star rating-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt rating-star"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star rating-star"></i>';
+                }
+            }
+            
+            return starsHTML;
+        }
+
+        async function loadFeaturedBundle() {
+            try {
+                // Get all bundles
+                const querySnapshot = await getDocs(collection(db, 'bundles'));
+                const bundles = [];
+                querySnapshot.forEach(doc => bundles.push(doc.data()));
+                
+                if (bundles.length === 0) {
+                    featuredBundle.innerHTML = '<p>No bundles available yet</p>';
+                    return;
+                }
+                
+                // Select a random bundle to feature
+                const randomIndex = Math.floor(Math.random() * bundles.length);
+                const featured = bundles[randomIndex];
+                
+                // Calculate end of day for timer
+                const now = new Date();
+                const endOfDay = new Date(
+                    now.getFullYear(),
+                    now.getMonth(),
+                    now.getDate() + 1, // Next day
+                    0, 0, 0 // Midnight
+                );
+                
+                // Render featured bundle
+                featuredBundle.innerHTML = `
+                    <img src="${featured.thumbnailUrl}" class="bundle-thumbnail">
+                    <div class="bundle-overlay">
+                        <div class="bundle-header">
+                            <h3 class="bundle-title">${featured.name}</h3>
+                            <div class="bundle-timer">${formatTimeLeft(endOfDay)}</div>
+                        </div>
+                        <p class="bundle-description">${featured.description}</p>
+                        <div class="bundle-rating">
+                            <div class="rating-stars">
+                                ${renderRatingStars(featured.averageRating || 0)}
+                            </div>
+                            <span class="rating-average">${featured.averageRating?.toFixed(1) || '0.0'}</span>
+                            <span class="rating-count">(${featured.ratingCount || 0} reviews)</span>
+                        </div>
+                        <a href="${featured.stripeLink}" target="_blank" class="bundle-buy-btn">Buy Now - $${featured.price.toFixed(2)}</a>
+                    </div>
+                `;
+                
+                // Start countdown timer
+                startTimer(endOfDay);
+                
+                // Set click handler for bundle details
+                featuredBundle.addEventListener('click', (e) => {
+                    // Don't redirect if clicking on buy button
+                    if (!e.target.classList.contains('bundle-buy-btn') && 
+                        !e.target.closest('.bundle-buy-btn')) {
+                        window.location.href = `/bundle?id=${featured.id}`;
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error loading featured bundle:', error);
+                showNotification('Failed to load featured bundle', false);
+            }
+        }
+
+        // Auth State Observer
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            
+            if (user) {
+                // Check if user is staff/admin
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    if (userData.role === 'staff' || userData.role === 'admin') {
+                        staffPanel.style.display = 'block';
+                    }
+                }
+            }
+            
+            // Load featured bundle
+            loadFeaturedBundle();
+        });
+
+        // Initialize
+        staffForm.classList.add('collapsed');
+        staffToggle.querySelector('svg').classList.add('collapsed');
+    </script>
+</body>
+</html>
