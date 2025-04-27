@@ -720,6 +720,27 @@
         }
 
         // Auth State Observer
+        
+async function fetchUserData(userId) {
+    try {
+        const userDoc = await db.collection('users').doc(userId).get();
+        if (userDoc.exists) {
+            currentUserData = userDoc.data();
+            updateUserUI();
+            
+            // Show create post section for MssGroup members
+            if (currentUserData.role === 'staff') {
+                staffPanel.style.display = 'block';
+            } else {
+                staffPanel.style.display = 'none';
+            }
+            loadFeaturedBundle();
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}
+        /*
         onAuthStateChanged(auth, async (user) => {
             currentUser = user;
             
@@ -736,7 +757,7 @@
             
             // Load featured bundle
             loadFeaturedBundle();
-        });
+        });*/
 
         // Initialize
         staffForm.classList.add('collapsed');
