@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bundle | DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Discord Embed Metadata -->
+    <meta property="og:title" content="" id="og-title">
+    <meta property="og:description" content="" id="og-description">
+    <meta property="og:image" content="" id="og-image">
+    <meta property="og:url" content="" id="og-url">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#8a63f2">
+    
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 25% 25%, rgba(138, 99, 242, 0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(0, 184, 148, 0.15) 0%, transparent 50%);
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--bg-darker);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--text);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg-dark);
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Bundle Container */
+        .bundle-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .bundle-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .bundle-thumbnail {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .bundle-info {
+            flex: 1;
+        }
+
+        .bundle-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .bundle-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bundle-creator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .creator-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .creator-name {
+            font-weight: 500;
+        }
+
+        .bundle-price {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .featured-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .bundle-timer {
+            background-color: var(--bg-darker);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--primary);
+        }
+
+        .bundle-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: var(--text-dim);
+        }
+
+        .bundle-rating {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .rating-star {
+            color: #ffc107;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .rating-star:hover {
+            transform: scale(1.2);
+        }
+
+        .rating-average {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .rating-count {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .bundle-buy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .bundle-buy-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .bundle-products {
+            margin-top: 3rem;
+        }
+
+        .products-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-thumbnail {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: var(--success);
+        }
+
+        .notification.error {
+            background-color: var(--error);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bundle-header {
+                flex-direction: column;
+            }
+            
+            .bundle-thumbnail {
+                max-width: 100%;
+            }
+            
+            .bundle-title {
+                font-size: 2rem;
+            }
+            
+            .bundle-meta {
+                flex-wrap: wrap;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="https://via.placeholder.com/32x32" alt="DreamWeave Logo" class="logo-img">
+            <span>DreamWeave.lol</span>
+        </a>
+        
+        <div class="nav-links">
+            <a href="/products" class="nav-link">Products</a>
+            <a href="/bundles" class="nav-link">Bundles</a>
+            <a href="/about" class="nav-link">About</a>
+            
+            <div class="profile-dropdown" id="profile-dropdown">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=User" class="profile-avatar" id="nav-avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content" id="dropdown-content">
+                    <a href="/profile" id="profile-link">Profile</a>
+                    <a href="/categories">Categories</a>
+                    <a href="/settings">Settings</a>
+                    <a href="#" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bundle Container -->
+    <main class="bundle-container">
+        <div class="bundle-header">
+            <img src="" alt="Bundle Thumbnail" class="bundle-thumbnail" id="bundle-thumbnail">
+            <div class="bundle-info">
+                <h1 class="bundle-title" id="bundle-title">Loading Bundle...</h1>
+                
+                <div class="bundle-meta">
+                    <div class="bundle-creator">
+                        <img src="" alt="Creator" class="creator-avatar" id="creator-avatar">
+                        <span class="creator-name" id="creator-name">Creator</span>
+                    </div>
+                    
+                    <div class="bundle-price" id="bundle-price">$0.00</div>
+                    
+                    <div class="featured-badge" id="featured-badge" style="display: none;">Featured</div>
+                    <div class="bundle-timer" id="bundle-timer" style="display: none;">00:00:00</div>
+                </div>
+                
+                <p class="bundle-description" id="bundle-description">Loading description...</p>
+                
+                <div class="bundle-rating">
+                    <div class="rating-stars" id="rating-stars">
+                        <!-- Stars will be added dynamically -->
+                    </div>
+                    <span class="rating-average" id="rating-average">0.0</span>
+                    <span class="rating-count" id="rating-count">(0 reviews)</span>
+                </div>
+                
+                <a href="#" class="bundle-buy-btn" id="bundle-buy-btn">Buy Now</a>
+            </div>
+        </div>
+        
+        <div class="bundle-products" id="bundle-products">
+            <h2 class="products-title">Products in this Bundle</h2>
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc,
+            updateDoc,
+            collection,
+            getDocs,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const bundleThumbnail = document.getElementById('bundle-thumbnail');
+        const bundleTitle = document.getElementById('bundle-title');
+        const creatorAvatar = document.getElementById('creator-avatar');
+        const creatorName = document.getElementById('creator-name');
+        const bundlePrice = document.getElementById('bundle-price');
+        const featuredBadge = document.getElementById('featured-badge');
+        const bundleTimer = document.getElementById('bundle-timer');
+        const bundleDescription = document.getElementById('bundle-description');
+        const ratingStars = document.getElementById('rating-stars');
+        const ratingAverage = document.getElementById('rating-average');
+        const ratingCount = document.getElementById('rating-count');
+        const bundleBuyBtn = document.getElementById('bundle-buy-btn');
+        const productsGrid = document.getElementById('products-grid');
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const dropdownContent = document.getElementById('dropdown-content');
+        const navAvatar = document.getElementById('nav-avatar');
+        const profileLink = document.getElementById('profile-link');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Discord embed elements
+        const ogTitle = document.getElementById('og-title');
+        const ogDescription = document.getElementById('og-description');
+        const ogImage = document.getElementById('og-image');
+        const ogUrl = document.getElementById('og-url');
+
+        // State variables
+        let currentUser = null;
+        let currentBundle = null;
+        let timerInterval;
+
+        // Get bundle ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const bundleId = urlParams.get('id');
+
+        // Event Listeners
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+
+        // Functions
+        function showNotification(message, isSuccess = true) {
+            notification.className = `notification ${isSuccess ? 'success' : 'error'} show`;
+            notification.querySelector('i').className = isSuccess ? 
+                'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            notificationMessage.textContent = message;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function formatTimeLeft(endTime) {
+            const now = new Date();
+            const diff = endTime - now;
+            
+            if (diff <= 0) return "00:00:00";
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer(endTime) {
+            // Clear any existing timer
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Update immediately
+            bundleTimer.textContent = formatTimeLeft(endTime);
+            bundleTimer.style.display = 'block';
+            
+            // Update every second
+            timerInterval = setInterval(() => {
+                const timeLeft = formatTimeLeft(endTime);
+                bundleTimer.textContent = timeLeft;
+                
+                if (timeLeft === "00:00:00") {
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+        }
+
+        function renderRatingStars(rating, interactive = false) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let starsHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    starsHTML += `<i class="fas fa-star rating-star" data-rating="${i}"></i>`;
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    starsHTML += `<i class="fas fa-star-half-alt rating-star" data-rating="${i}"></i>`;
+                } else {
+                    starsHTML += `<i class="far fa-star rating-star" data-rating="${i}"></i>`;
+                }
+            }
+            
+            ratingStars.innerHTML = starsHTML;
+            
+            if (interactive) {
+                // Add click handlers for rating
+                document.querySelectorAll('.rating-star').forEach(star => {
+                    star.addEventListener('click', async () => {
+                        if (!currentUser) {
+                            showNotification('Please login to rate this bundle', false);
+                            return;
+                        }
+                        
+                        const rating = parseInt(star.dataset.rating);
+                        await rateBundle(rating);
+                    });
+                });
+            }
+        }
+
+        async function rateBundle(rating) {
+            try {
+                const bundleRef = doc(db, 'bundles', bundleId);
+                const bundleDoc = await getDoc(bundleRef);
+                const bundleData = bundleDoc.data();
+                
+                // Check if user already rated
+                const userRating = bundleData.ratings[currentUser.uid] || 0;
+                const ratingCount = bundleData.ratingCount;
+                let newAverage = bundleData.averageRating;
+                
+                // Calculate new average
+                if (userRating > 0) {
+                    // User changing their rating
+                    newAverage = ((bundleData.averageRating * ratingCount) - userRating + rating) / ratingCount;
+                } else {
+                    // New rating
+                    newAverage = ((bundleData.averageRating * ratingCount) + rating) / (ratingCount + 1);
+                }
+                
+                // Update bundle
+                await updateDoc(bundleRef, {
+                    [`ratings.${currentUser.uid}`]: rating,
+                    averageRating: newAverage,
+                    ratingCount: userRating > 0 ? ratingCount : ratingCount + 1
+                });
+                
+                // Update UI
+                renderRatingStars(newAverage, true);
+                ratingAverage.textContent = newAverage.toFixed(1);
+                ratingCount.textContent = `(${userRating > 0 ? ratingCount : ratingCount + 1} reviews)`;
+                
+                showNotification('Rating submitted successfully!');
+            } catch (error) {
+                console.error('Error rating bundle:', error);
+                showNotification('Failed to submit rating', false);
+            }
+        }
+
+        async function loadBundle() {
+            if (!bundleId) {
+                showNotification('No bundle ID provided', false);
+                return;
+            }
+            
+            try {
+                const bundleRef = doc(db, 'bundles', bundleId);
+                const bundleDoc = await getDoc(bundleRef);
+                
+                if (!bundleDoc.exists()) {
+                    showNotification('Bundle not found', false);
+                    return;
+                }
+                
+                currentBundle = bundleDoc.data();
+                
+                // Update Discord embed metadata
+                ogTitle.setAttribute('content', currentBundle.name);
+                ogDescription.setAttribute('content', currentBundle.description);
+                ogImage.setAttribute('content', currentBundle.thumbnailUrl);
+                ogUrl.setAttribute('content', window.location.href);
+                
+                // Update page content
+                bundleThumbnail.src = currentBundle.thumbnailUrl;
+                bundleTitle.textContent = currentBundle.name;
+                bundleDescription.textContent = currentBundle.description;
+                bundlePrice.textContent = `$${currentBundle.price.toFixed(2)}`;
+                bundleBuyBtn.href = currentBundle.stripeLink;
+                
+                // Show featured badge if bundle is featured
+                if (currentBundle.isFeatured) {
+                    featuredBadge.style.display = 'block';
+                    
+                    // Calculate end of day for timer
+                    const now = new Date();
+                    const endOfDay = new Date(
+                        now.getFullYear(),
+                        now.getMonth(),
+                        now.getDate() + 1, // Next day
+                        0, 0, 0 // Midnight
+                    );
+                    startTimer(endOfDay);
+                }
+                
+                // Load creator info
+                const creatorDoc = await getDoc(doc(db, 'users', currentBundle.ownerId));
+                if (creatorDoc.exists()) {
+                    const creatorData = creatorDoc.data();
+                    creatorAvatar.src = creatorData.avatarUrl || `https://api.dicebear.com/7.x/identicon/svg?seed=${creatorData.uid}`;
+                    creatorName.textContent = creatorData.displayName;
+                }
+                
+                // Load products
+                if (currentBundle.productIds && currentBundle.productIds.length > 0) {
+                    const productPromises = currentBundle.productIds.map(productId => 
+                        getDoc(doc(db, 'products', productId))
+                    );
+                    
+                    const productSnapshots = await Promise.all(productPromises);
+                    productsGrid.innerHTML = '';
+                    
+                    productSnapshots.forEach(snapshot => {
+                        if (snapshot.exists()) {
+                            const product = snapshot.data();
+                            const productCard = document.createElement('div');
+                            productCard.className = 'product-card';
+                            productCard.innerHTML = `
+                                <img src="${product.thumbnailUrl}" class="product-thumbnail">
+                                <div class="product-info">
+                                    <h3 class="product-name">${product.name}</h3>
+                                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                                </div>
+                            `;
+                            productsGrid.appendChild(productCard);
+                        }
+                    });
+                } else {
+                    document.getElementById('bundle-products').style.display = 'none';
+                }
+                
+                // Set up rating
+                renderRatingStars(currentBundle.averageRating || 0, true);
+                ratingAverage.textContent = (currentBundle.averageRating || 0).toFixed(1);
+                ratingCount.textContent = `(${currentBundle.ratingCount || 0} reviews)`;
+                
+            } catch (error) {
+                console.error('Error loading bundle:', error);
+                showNotification('Failed to load bundle', false);
+            }
+        }
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            
+            if (user) {
+                // Update profile dropdown
+                navAvatar.src = user.photoURL || `https://api.dicebear.com/7.x/identicon/svg?seed=${user.uid}`;
+                profileLink.href = `/profile?id=${user.uid}`;
+            } else {
+                navAvatar.src = 'https://api.dicebear.com/7.x/identicon/svg?seed=Guest';
+                profileLink.href = '/login';
+            }
+            
+            // Load bundle
+            loadBundle();
+        });
+    </script>
+</body>
+</html>
