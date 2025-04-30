@@ -900,7 +900,7 @@
             
             try {
                 const commentsRef = collection(db, 'bundles', bundleId, 'comments');
-                const q = query(commentsRef, orderBy('createdAt', 'desc'));
+                const q = query(commentsRef, orderBy('createdAt', 'text'));
                 const querySnapshot = await getDocs(q);
                 
                 if (querySnapshot.empty) {
