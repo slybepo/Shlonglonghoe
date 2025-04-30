@@ -978,6 +978,7 @@
             } catch (error) {
                 console.error('Error loading comments:', error);
                 commentsContainer.innerHTML = '<p>Failed to load comments</p>';
+                showNotification(error, false);
             }
         }
 
