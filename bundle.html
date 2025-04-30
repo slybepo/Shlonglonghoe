@@ -873,9 +873,7 @@
 
         async function checkPurchaseStatus() {
             if (!currentUser || !bundleId) return false;
-            if (purchaseSnap){
-                commentForm.style.display = 'block';
-            }
+    
             try {
                 const purchaseRef = doc(db, 'users', currentUser.uid, 'purchases', bundleId);
                 const purchaseSnap = await getDoc(purchaseRef);
