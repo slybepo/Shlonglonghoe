@@ -429,6 +429,73 @@
                 grid-template-columns: 1fr;
             }
         }
+        .comment-section {
+                background-color: var(--card-bg);
+                border-radius: 12px;
+                padding: 1.5rem;
+                border: 1px solid var(--border);
+                margin-top: 3rem;
+            }
+            
+            .comment {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .comment:last-child {
+                border-bottom: none;
+            }
+            
+            .comment-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            
+            .comment-content {
+                flex: 1;
+            }
+            
+            .comment-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+            
+            .comment-author {
+                font-weight: 600;
+                color: var(--text-light);
+            }
+            
+            .comment-time {
+                color: var(--text-dim);
+                font-size: 0.8rem;
+            }
+            
+            .comment-text {
+                line-height: 1.5;
+            }
+            
+            .comment-actions {
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+            }
+            
+            .comment-action {
+                background: none;
+                border: none;
+                color: var(--text-dim);
+                cursor: pointer;
+                font-size: 0.8rem;
+            }
+            
+            .comment-action:hover {
+                color: var(--primary);
+            }
     </style>
 </head>
 <body>
