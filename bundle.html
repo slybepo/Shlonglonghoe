@@ -495,6 +495,25 @@
                 <!-- Products will be loaded here -->
             </div>
         </div>
+        <section class="comment-section">
+            <h2 class="products-title">Comments</h2>
+            
+            <div id="comments-container">
+                <!-- Comments will be loaded here -->
+            </div>
+            
+            <form id="comment-form" style="margin-top: 2rem; display: none;">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <textarea id="comment-text" class="form-control" rows="3" 
+                              placeholder="Share your thoughts about this bundle..." required></textarea>
+                </div>
+                <button type="submit" class="bundle-buy-btn" style="margin-bottom: 0;">Post Comment</button>
+            </form>
+            
+            <div id="comment-login-prompt" style="text-align: center; margin-top: 2rem;">
+                <p>Please <a href="/login" style="color: var(--primary);">login</a> and purchase this bundle to leave a comment</p>
+            </div>
+        </section>
     </main>
 
     <!-- Notification -->
