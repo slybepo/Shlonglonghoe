@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | DreamWeave.lol</title>
+    
+    <!-- Discord/Twitter Embed Meta Tags -->
+    <meta property="og:title" content="DreamWeave Profile" id="og-title">
+    <meta property="og:description" content="Check out my profile on DreamWeave!" id="og-description">
+    <meta property="og:image" content="" id="og-image">
+    <meta property="og:url" content="" id="og-url">
+    <meta property="og:type" content="profile">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: rgba(26, 26, 31, 0.7);
+            --search-bg: #25252a;
+            --yellow-bg: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            background: #ff00aa;
+            top: 60%;
+            left: 30%;
+            animation-delay: 3s;
+        }
+
+        .circle-3 {
+            width: 250px;
+            height: 250px;
+            background: #00aaff;
+            top: 30%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+        }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            align-items: start;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(138, 99, 242, 0.3);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .profile-name-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .profile-email {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .profile-bio {
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .follow-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            height: fit-content;
+            backdrop-filter: blur(5px);
+        }
+
+        .follow-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .follow-btn.following {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Profile Content */
+        .profile-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .profile-sidebar {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .profile-main {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Activity Items */
+        .activity-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            background: rgba(31, 31, 36, 0.6);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1.25rem;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .activity-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(138, 99, 242, 0.3);
+        }
+
+        .activity-thumbnail {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .activity-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .activity-type {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .activity-date {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .profile-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .profile-stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .activity-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .activity-thumbnail {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+        <div class="bg-circle circle-3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">✦</span>
+            <span>DreamWeave.lol</span>
+        </a>
+    </nav>
+
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar-container">
+                <img id="profile-avatar" src="https://api.dicebear.com/7.x/identicon/svg?seed=User" class="profile-avatar">
+            </div>
+            <div class="profile-info">
+                <div class="profile-name-row">
+                    <h1 id="profile-name" class="profile-name">Username</h1>
+                    <button id="follow-btn" class="follow-btn">Follow</button>
+                </div>
+                <p id="profile-email" class="profile-email">user@example.com</p>
+                <p id="profile-bio" class="profile-bio">This is a sample bio. The user hasn't added anything here yet.</p>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="followers-count">0</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="following-count">0</span>
+                        <span class="stat-label">Following</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="likes-count">0</span>
+                        <span class="stat-label">Likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Details</h3>
+                    <p id="join-date">Joined: Loading...</p>
+                    <p id="last-active">Last active: Recently</p>
+                </div>
+                
+                <!-- Dynamic Embed Preview -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Share Profile</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0.5rem;">
+                        When you share this link, it will show your profile with a custom preview:
+                    </p>
+                    <div style="background: rgba(47, 49, 54, 0.7); border-radius: 8px; padding: 12px; margin-top: 0.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <div style="background: var(--yellow-bg); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <img id="embed-avatar-preview" src="https://api.dicebear.com/7.x/identicon/svg?seed=User" style="width: 36px; height: 36px; border-radius: 50%;">
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; color: white;" id="embed-title-preview">Username's Profile</div>
+                                <div style="font-size: 0.85rem; color: #b9bbbe;" id="embed-desc-preview">Check out my profile on DreamWeave</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-main">
+                <h2 class="section-title">Recent Activity</h2>
+                <div id="user-activity" class="activity-list">
+                    <!-- Activity items will be inserted here -->
+                    <p>Loading activity...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Action</a></li>
+                    <li class="footer-link"><a href="#">Adventure</a></li>
+                    <li class="footer-link"><a href="#">RPG</a></li>
+                    <li class="footer-link"><a href="#">Strategy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc,
+            updateDoc,
+            arrayUnion,
+            arrayRemove,
+            collection,
+            query,
+            where,
+            orderBy,
+            limit,
+            getDocs,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const profileName = document.getElementById('profile-name');
+        const profileEmail = document.getElementById('profile-email');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const profileBio = document.getElementById('profile-bio');
+        const followersCount = document.getElementById('followers-count');
+        const followingCount = document.getElementById('following-count');
+        const likesCount = document.getElementById('likes-count');
+        const followBtn = document.getElementById('follow-btn');
+        const joinDate = document.getElementById('join-date');
+        const lastActive = document.getElementById('last-active');
+        const userActivity = document.getElementById('user-activity');
+        const embedAvatarPreview = document.getElementById('embed-avatar-preview');
+        const embedTitlePreview = document.getElementById('embed-title-preview');
+        const embedDescPreview = document.getElementById('embed-desc-preview');
+
+        // State variables
+        let currentUser = null;
+        let profileUser = null;
+        let isFollowing = false;
+
+        // Get profile ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const profileUserId = urlParams.get('id') || 'default';
+
+        // Update meta tags for Discord/Twitter embeds
+        function updateMetaTags(userData) {
+            const title = `${userData.displayName}'s Profile | DreamWeave`;
+            const description = userData.bio || 'Check out my profile on DreamWeave!';
+            const currentUrl = window.location.href;
+            
+            // Update meta tags
+            document.getElementById('og-title').content = title;
+            document.getElementById('og-description').content = description;
+            document.getElementById('og-url').content = currentUrl;
+            
+            // Update the embed preview in the sidebar
+            embedTitlePreview.textContent = title;
+            embedDescPreview.textContent = description;
+            embedAvatarPreview.src = userData.avatarUrl || profileAvatar.src;
+            
+            // Generate dynamic thumbnail (for actual link sharing)
+            generateDynamicThumbnail(userData);
+        }
+
+        // Generate dynamic thumbnail with yellow background
+        function generateDynamicThumbnail(userData) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1200;
+            canvas.height = 630;
+            const ctx = canvas.getContext('2d');
+            
+            // Draw yellow background
+            ctx.fillStyle = '#FFD700';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Load avatar image
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.src = userData.avatarUrl || profileAvatar.src;
+            
+            img.onload = function() {
+                // Draw avatar (centered with circular mask)
+                const size = Math.min(canvas.width, canvas.height) * 0.5;
+                const x = (canvas.width - size) / 2;
+                const y = (canvas.height - size) / 2;
+                
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, canvas.height/2, size/2, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(img, x, y, size, size);
+                ctx.restore();
+                
+                // Set the thumbnail URL
+                const thumbnailUrl = canvas.toDataURL('image/png');
+                document.getElementById('og-image').content = thumbnailUrl;
+            };
+        }
+
+        // Load profile data
+        async function loadProfileData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (userDoc.exists()) {
+                    profileUser = userDoc.data();
+                    renderProfile(profileUser);
+                    updateMetaTags(profileUser);
+                    
+                    // Load user's recent activity
+                    await loadRecentActivity(userId);
+                    
+                    // Check if current user is following this profile
+                    if (currentUser) {
+                        await checkFollowingStatus(currentUser.uid, userId);
+                    }
+                } else {
+                    console.error('User not found');
+                    userActivity.innerHTML = '<p>User not found</p>';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                userActivity.innerHTML = '<p>Error loading profile</p>';
+            }
+        }
+
+        // Render profile data
+        function renderProfile(userData) {
+            profileName.textContent = userData.displayName || 'User';
+            profileEmail.textContent = userData.email || 'No email provided';
+            profileAvatar.src = userData.avatarUrl || 'https://api.dicebear.com/7.x/identicon/svg?seed=' + (userData.displayName || 'User');
+            profileBio.textContent = userData.bio || 'This user hasn\'t added a bio yet.';
+            followersCount.textContent = userData.followers?.length || 0;
+            followingCount.textContent = userData.following?.length || 0;
+            likesCount.textContent = userData.likes || 0;
+            
+            if (userData.createdAt) {
+                const joinDateFormatted = userData.createdAt.toDate().toLocaleDateString();
+                joinDate.textContent = `Joined: ${joinDateFormatted}`;
+            }
+        }
+
+        // Load recent activity (last 3 bundles/products)
+        async function loadRecentActivity(userId) {
+            try {
+                userActivity.innerHTML = '<p>Loading activity...</p>';
+                
+                // Query bundles
+                const bundlesQuery = query(
+                    collection(db, 'bundles'),
+                    where('ownerId', '==', userId),
+                    orderBy('createdAt', 'desc'),
+                    limit(3)
+                );
+                
+                const bundlesSnapshot = await getDocs(bundlesQuery);
+                const activities = [];
+                
+                bundlesSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    activities.push({
+                        id: doc.id,
+                        type: 'bundle',
+                        title: data.name,
+                        description: data.description,
+                        thumbnail: data.thumbnailUrl || 'https://via.placeholder.com/150',
+                        date: data.createdAt
+                    });
+                });
+                
+                // Query products
+                const productsQuery = query(
+                    collection(db, 'products'),
+                    where('ownerId', '==', userId),
+                    orderBy('createdAt', 'desc'),
+                    limit(3)
+                );
+                
+                const productsSnapshot = await getDocs(productsQuery);
+                productsSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    activities.push({
+                        id: doc.id,
+                        type: 'product',
+                        title: data.name,
+                        description: data.description,
+                        thumbnail: data.thumbnailUrl || 'https://via.placeholder.com/150',
+                        date: data.createdAt
+                    });
+                });
+                
+                // Sort by date and limit to 3 most recent
+                activities.sort((a, b) => b.date?.seconds - a.date?.seconds);
+                const recentActivities = activities.slice(0, 3);
+                
+                // Render activities
+                renderActivities(recentActivities);
+            } catch (error) {
+                console.error('Error loading activity:', error);
+                userActivity.innerHTML = '<p>Could not load activity</p>';
+            }
+        }
+
+        // Render activity items
+        function renderActivities(activities) {
+            if (activities.length === 0) {
+                userActivity.innerHTML = '<p>No recent activity</p>';
+                return;
+            }
+            
+            userActivity.innerHTML = activities.map(activity => `
+                <div class="activity-item">
+                    <img src="${activity.thumbnail}" class="activity-thumbnail" alt="${activity.title}">
+                    <div class="activity-info">
+                        <h3 class="activity-title">${activity.title}</h3>
+                        <div class="activity-type">
+                            ${activity.type === 'bundle' ? '📦 Bundle' : '🛍 Product'}
+                        </div>
+                        <p style="margin-bottom: 0.5rem;">${activity.description || 'No description'}</p>
+                        <div class="activity-date">
+                            ${activity.date ? `Created: ${new Date(activity.date.seconds * 1000).toLocaleDateString()}` : 'Unknown date'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Check following status
+        async function checkFollowingStatus(currentUserId, profileUserId) {
+            if (currentUserId === profileUserId) {
+                followBtn.style.display = 'none';
+                return;
+            }
+
+            const userDoc = await getDoc(doc(db, 'users', currentUserId));
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                isFollowing = userData.followingUsers?.includes(profileUserId) || false;
+                
+                followBtn.textContent = isFollowing ? 'Following' : 'Follow';
+                followBtn.classList.toggle('following', isFollowing);
+            }
+        }
+
+        // Follow/unfollow function
+        async function toggleFollow() {
+            if (!currentUser || !profileUser) return;
+
+            try {
+                const currentUserId = currentUser.uid;
+                const profileUserId = profileUser.uid;
+
+                if (isFollowing) {
+                    // Unfollow
+                    await updateDoc(doc(db, 'users', currentUserId), {
+                        followingUsers: arrayRemove(profileUserId)
+                    });
+
+                    await updateDoc(doc(db, 'users', profileUserId), {
+                        followers: arrayRemove(currentUserId)
+                    });
+
+                    isFollowing = false;
+                    followersCount.textContent = parseInt(followersCount.textContent) - 1;
+                } else {
+                    // Follow
+                    await updateDoc(doc(db, 'users', currentUserId), {
+                        followingUsers: arrayUnion(profileUserId)
+                    });
+
+                    await updateDoc(doc(db, 'users', profileUserId), {
+                        followers: arrayUnion(currentUserId)
+                    });
+
+                    isFollowing = true;
+                    followersCount.textContent = parseInt(followersCount.textContent) + 1;
+                }
+                
+                // Update button state
+                followBtn.textContent = isFollowing ? 'Following' : 'Follow';
+                followBtn.classList.toggle('following', isFollowing);
+            } catch (error) {
+                console.error('Error toggling follow:', error);
+            }
+        }
+
+        // Event Listeners
+        followBtn.addEventListener('click', toggleFollow);
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            loadProfileData(profileUserId);
+        });
+
+        // Initialize
+        loadProfileData(profileUserId);
+    </script>
+</body>
+</html>
