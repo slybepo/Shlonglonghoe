@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Bundles | DreamWeave.lol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --bg-darker: #0a0a0c;
+            --primary: #8a63f2;
+            --primary-dark: #7a53e2;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-dim: #a0a0a0;
+            --success: #00b894;
+            --error: #d63031;
+            --border: #25252a;
+            --card-bg: #1a1a1f;
+            --search-bg: #25252a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 25% 25%, rgba(138, 99, 242, 0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 75% 75%, rgba(0, 184, 148, 0.15) 0%, transparent 50%);
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            height: 32px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--bg-darker);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: var(--text);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg-dark);
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Main Content */
+        .bundles-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .bundles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .bundle-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            transition: transform 0.3s ease;
+        }
+
+        .bundle-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .bundle-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bundle-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .bundle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 0.5rem;
+        }
+
+        .bundle-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .bundle-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .bundle-rating {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .rating-star {
+            color: #ffc107;
+            font-size: 0.9rem;
+        }
+
+        .rating-average {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .bundle-description {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-darker);
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bundles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .bundle-title {
+                font-size: 1.25rem;
+            }
+            
+            .bundle-description {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="https://i.ibb.co/YHvJzmD/IMG-20250421-135839-1-removebg-preview-1.png" alt="DreamWeave Logo" class="logo-img">
+            <span>DreamWeave.lol</span>
+        </a>
+        
+        <div class="nav-links">
+            <a href="/bundles" class="nav-link">Bundles</a>
+            <a href="/products" class="nav-link">Products</a>
+            
+            <div class="profile-dropdown" id="profile-dropdown">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=User" class="profile-avatar" id="nav-avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content" id="dropdown-content">
+                    <a href="/profile" id="profile-link">Profile</a>
+                    <a href="/settings">Settings</a>
+                    <a href="#" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bundles Container -->
+    <main class="bundles-container">
+        <h1 class="section-title">All Bundles</h1>
+        <div class="bundles-grid" id="bundles-grid">
+            <!-- Bundles will be loaded here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>DreamWeave</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About Us</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Help Center</a></li>
+                    <li class="footer-link"><a href="#">Community</a></li>
+                    <li class="footer-link"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    <li class="footer-link"><a href="#">Privacy Policy</a></li>
+                    <li class="footer-link"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DreamWeave.lol. All rights reserved.
+        </div>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMUi291fwb-HSxlGPQMxdEJGUTiOOvFBs",
+            authDomain: "nexaverse-eeb07.firebaseapp.com",
+            projectId: "nexaverse-eeb07",
+            storageBucket: "nexaverse-eeb07.appspot.com",
+            messagingSenderId: "686342300627",
+            appId: "1:686342300627:web:90522d8f1129fb00b08526",
+        };
+
+        // Initialize Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { 
+            getFirestore, 
+            collection,
+            getDocs,
+            query,
+            orderBy
+        } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const bundlesGrid = document.getElementById('bundles-grid');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const dropdownContent = document.getElementById('dropdown-content');
+        const navAvatar = document.getElementById('nav-avatar');
+        const profileLink = document.getElementById('profile-link');
+        const logoutBtn = document.getElementById('logout-btn');
+        let currentUser = null;
+
+        // Event Listeners
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+
+        // Functions
+        function renderRatingStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let starsHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    starsHTML += '<i class="fas fa-star rating-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt rating-star"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star rating-star"></i>';
+                }
+            }
+            
+            return starsHTML;
+        }
+
+        async function loadBundles() {
+            try {
+                const q = query(collection(db, 'bundles'), orderBy('createdAt', 'desc'));
+                const querySnapshot = await getDocs(q);
+                
+                bundlesGrid.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    bundlesGrid.innerHTML = '<p>No bundles available yet</p>';
+                    return;
+                }
+                
+                querySnapshot.forEach((doc) => {
+                    const bundle = doc.data();
+                    const bundleCard = document.createElement('a');
+                    bundleCard.className = 'bundle-card';
+                    bundleCard.href = `/bundle?id=${bundle.id}`;
+                    
+                    bundleCard.innerHTML = `
+                        <img src="${bundle.thumbnailUrl}" class="bundle-thumbnail">
+                        ${bundle.isFeatured ? '<div class="featured-badge">Featured</div>' : ''}
+                        <div class="bundle-rating">
+                            ${renderRatingStars(bundle.averageRating || 0)}
+                            <span class="rating-average">${(bundle.averageRating || 0).toFixed(1)}</span>
+                        </div>
+                        <div class="bundle-overlay">
+                            <div class="bundle-header">
+                                <h3 class="bundle-title">${bundle.name}</h3>
+                                <div class="bundle-price">$${bundle.price.toFixed(2)}</div>
+                            </div>
+                            <p class="bundle-description">${bundle.description}</p>
+                        </div>
+                    `;
+                    
+                    bundlesGrid.appendChild(bundleCard);
+                });
+            } catch (error) {
+                console.error('Error loading bundles:', error);
+                bundlesGrid.innerHTML = '<p>Failed to load bundles</p>';
+            }
+        }
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            
+            if (user) {
+                // Update profile dropdown
+                navAvatar.src = user.photoURL || `https://api.dicebear.com/7.x/identicon/svg?seed=${user.uid}`;
+                profileLink.href = `/profile?id=${user.uid}`;
+            } else {
+                navAvatar.src = 'https://api.dicebear.com/7.x/identicon/svg?seed=Guest';
+                profileLink.href = '/login';
+            }
+            
+            // Load bundles
+            loadBundles();
+        });
+    </script>
+</body>
+</html>
